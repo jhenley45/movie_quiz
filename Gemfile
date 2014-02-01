@@ -41,6 +41,8 @@ gem 'binding_of_caller'
 
 gem 'httparty'
 
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

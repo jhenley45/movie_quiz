@@ -2,7 +2,6 @@ class MovieQuizController < ApplicationController
 	include RottenTomatoes
 
 
-	require 'net/http'
 
 
   def show

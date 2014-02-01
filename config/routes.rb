@@ -2,6 +2,7 @@ MovieQuiz::Application.routes.draw do
 
 
 
+  devise_for :users
   get "movie_quiz/show"
   get "movie_quiz/index"
 
