@@ -1,0 +1,8 @@
+<h1>Movies#index</h1>
+<p>Find me in app/views/movies/index.html.erb</p>
+
+<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f |%>
+	<%= label_tag(:movie, "Enter a movie:") %>
+  <%= text_field_tag(:movie) %>
+  <%= submit_tag("Go!") %>
+<% end %>

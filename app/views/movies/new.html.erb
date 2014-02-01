@@ -1,0 +1,7 @@
+<h1>Movies#new</h1>
+<p>Find me in app/views/movies/new.html.erb</p>
+
+<%= form_for @casts do | f |%>
+	Enter a Movie: <%= f.text_field :movie_name %><br>
+	<%= f.submit %>
+<% end %>
