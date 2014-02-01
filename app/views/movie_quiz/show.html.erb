@@ -1,0 +1,8 @@
+<h1>MovieQuiz#show</h1>
+<p>Find me in app/views/movie_quiz/show.html.erb</p>
+<%= @movie %>
+
+
+<% @body.first[1].each do |member| %>
+	<%= member["name"] %><br>
+<% end %>
