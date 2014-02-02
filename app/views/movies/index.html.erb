@@ -1,11 +1,12 @@
 
 
-<% @brad.first[1].each do |thing| %>
+<% @actor.first[1].each do |thing| %>
 <%= thing["original_title"] %><br>
 <% end %>
 
-<br><br>
-<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f |%>
+
+
+<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
 	<%= label_tag(:movie, "Enter a movie:") %>
   <%= text_field_tag(:movie) %>
   <%= submit_tag("Go!") %>

@@ -8,7 +8,7 @@ class CastsController < ApplicationController
 
   def index
   	search = params[:movie]
-  	movie = RottenMovie.find(:title => search, :limit => 1)
+  	movie = RottenMovie.find(:title => 'avatar', :limit => 1)
   	link = movie.links.cast << "?apikey=netjf9tgnuwqjz5mkfkjcjj7"
   	response = HTTParty.get(link)
   	@body = JSON.parse(response.body)
