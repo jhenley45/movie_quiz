@@ -1,9 +1,9 @@
 
-
-<% @actor.first[1].each do |thing| %>
-<%= thing["original_title"] %><br>
+<%if @movies.present? %>
+<% @movies.first[1].each do |movie| %>
+<%= movie["original_title"] %><br>
 <% end %>
-
+<% end %>
 
 
 <%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>

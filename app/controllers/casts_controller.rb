@@ -1,17 +1,14 @@
 class CastsController < ApplicationController
 
-	include RottenTomatoes
-
-
   def show
   end
 
   def index
-  	search = params[:movie]
-  	movie = RottenMovie.find(:title => 'avatar', :limit => 1)
-  	link = movie.links.cast << "?apikey=netjf9tgnuwqjz5mkfkjcjj7"
-  	response = HTTParty.get(link)
-  	@body = JSON.parse(response.body)
+  	if params[:movie].present?
+	  	@movie = params[:movie]
+	  	@cast = Cast.find_cast(@movie)
+	  	@movie_names = Tmdb::Movie.find(@movie)
+ 		end
   end
 
   def create
