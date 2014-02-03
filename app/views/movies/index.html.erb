@@ -12,6 +12,6 @@
 <%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
 	<%= label_tag(:movie, "Enter a movie that this actor/actress is in:") %>
   <%= text_field_tag(:movie) %>
-  <%= hidden_field_tag(:cast, @cast) %>
+  <%= hidden_field_tag(:correct_name, @correct_name) %>
   <%= submit_tag("Go!") %>
 <% end %>

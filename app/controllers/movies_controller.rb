@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
   		@answer = movie_check(@movie_name, @titles)
 
 
-
+  		@correct_name = Tmdb::Person.find(person).first.name
 
   	end
 
