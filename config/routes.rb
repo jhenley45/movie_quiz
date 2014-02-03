@@ -2,12 +2,10 @@ MovieQuiz::Application.routes.draw do
 
 
 
-  get "casts/show"
-  get "casts/index"
-  get "casts/create"
-  get "casts/new"
+
   resources :movies
   devise_for :users
+  resources :casts
 
   get "movie_quiz/show"
   get "movie_quiz/index"

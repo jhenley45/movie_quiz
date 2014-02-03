@@ -1,5 +1,6 @@
 class Movie < ActiveRecord::Base
 
+
 	def self.find_movie(cast)
 		@search = Tmdb::Search.new #initialize search
 		@search.resource('person') # determines type of resource
