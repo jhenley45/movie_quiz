@@ -3,6 +3,10 @@ MovieQuiz::Application.routes.draw do
 
 
 
+  get "rounds/index"
+  get "rounds/show"
+  get "rounds/new"
+  get "rounds/create"
   resources :movies
   devise_for :users
   resources :casts
@@ -10,7 +14,7 @@ MovieQuiz::Application.routes.draw do
   get "movie_quiz/show"
   get "movie_quiz/index"
 
-  root to: 'movies#index'
+  root to: 'users#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
