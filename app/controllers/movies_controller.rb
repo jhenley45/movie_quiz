@@ -39,6 +39,13 @@ class MoviesController < ApplicationController
 
   def movie_check(movie_title, titles, person)
   	if titles.include?(movie_title)
+  		#get the current round for the user
+  		@round = current_user.rounds.last
+  		#increment the score
+  		@round.score += 5
+  		#save the new score
+  		@round.save
+  		#return message to print
   		"Correct, #{person} was in #{movie_title}."
   	else
   		"Incorrect, #{person} was not in #{movie_title}."

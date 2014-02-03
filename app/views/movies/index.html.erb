@@ -1,5 +1,7 @@
 
-<h2><%= @answer %></h2>
+<h2><%= @answer %></h2><br>
+<p>You score is: <%= current_user.rounds.last.score %></p>
+
 
 
 <% if @correct_name.present? %>

@@ -17,4 +17,9 @@ class RoundsController < ApplicationController
   		render :controller => :users, :action => :index
   	end
   end
+
+  def update
+  	@round = @round
+
+  end
 end
