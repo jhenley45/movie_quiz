@@ -45,12 +45,10 @@ class CastsController < ApplicationController
 
   def name_check(name, cast, movie_name)
   	if cast.include?(name)
-  		#get the current round for the user
-  		@round = current_user.rounds.last
-  		#increment the score
-  		@round.score += 5
-  		#save the new score
-  		@round.save
+  		#update the score
+  		update_score
+  		#update level_up
+  		update_level_up
   		#return message to print
   		"Correct, #{name} was in #{movie_name}."
 
