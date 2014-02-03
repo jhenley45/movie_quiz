@@ -4,7 +4,7 @@ class CastsController < ApplicationController
   end
 
   def index
-  	if params[:movie].present?
+  	if params[:movie].present? && params[:correct_name].present?
 	  	@movie = params[:movie]
 	  	#find the cast for this movie
 	  	@cast = Cast.find_cast(@movie)
@@ -20,9 +20,18 @@ class CastsController < ApplicationController
 	  	#get an array of all of the cast names
 	  	@names = name_array(@cast)
 	  	#determine if the user input is in this array
-	  	@answer = name_check(@correct_name, @names)
+	  	@answer = name_check(@correct_name, @names, @movie_name)
+	  else
+	  	@movie = params[:movie]
+	  	#find the cast for this movie
+	  	@cast = Cast.find_cast(@movie)
 
+	  	# get the title of the movie to be passed into the movies controller in correct format
+	  	@movie_names = Tmdb::Movie.find(@movie)
+	  	#get the first search result
+	  	@movie_name = @movie_names.first.original_title
  		end
+
   end
 
   def create
@@ -34,11 +43,11 @@ class CastsController < ApplicationController
 
   private
 
-  def name_check(name, cast)
+  def name_check(name, cast, movie_name)
   	if cast.include?(name)
-  		"Correct. That person is in that movie"
+  		"Correct, #{name} was in #{movie_name}."
   	else
-  		"Incorrect. Actor/actress not in that movie"
+  		"Incorrect, #{name} was not in #{movie_name}."
   	end
   end
 

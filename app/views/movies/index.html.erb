@@ -1,17 +1,18 @@
 
-<%if @movies.present? %>
-<% @movies.first[1].each do |movie| %>
-<%= movie["original_title"] %><br>
-<% end %>
-<% end %>
-
-<h2><%= @movie_name %></h2>
 <h2><%= @answer %></h2>
 
 
-<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
-	<%= label_tag(:movie, "Enter a movie that this actor/actress is in:") %>
-  <%= text_field_tag(:movie) %>
-  <%= hidden_field_tag(:correct_name, @correct_name) %>
-  <%= submit_tag("Go!") %>
+<% if @correct_name.present? %>
+	<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
+		<%= label_tag(:movie, "Enter a movie that #{@correct_name} is in:") %>
+	  <%= text_field_tag(:movie) %>
+	  <%= hidden_field_tag(:correct_name, @correct_name) %>
+	  <%= submit_tag("Go!") %>
+	<% end %>
+<% else %>
+	<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
+		<%= label_tag(:movie, "Enter a movie to get started!") %>
+	  <%= text_field_tag(:movie) %>
+	  <%= submit_tag("Go!") %>
+<% end %>
 <% end %>

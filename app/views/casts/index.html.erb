@@ -1,15 +1,10 @@
-<h1>Casts#index</h1>
-<p>Find me in app/views/casts/index.html.erb</p>
-<h2><%= @movie_name %></h2>
-<% @cast.each do |actor| %>
-<%= actor["name"] %><br>
-<% end %>
+
 
 <h2><%= @answer %></h2>
 
 
 <%= form_tag({controller: "movies", action: "index"}, method: "get") do | f |%>
-	<%= label_tag(:movie, "Enter an actor/actress in this movie:") %>
+	<%= label_tag(:movie, "Enter a different actor/actress in #{@movie_name}:") %>
   <%= text_field_tag(:person) %>
   <%= hidden_field_tag(:movie_name, @movie_name) %>
   <%= submit_tag("Go!") %>
