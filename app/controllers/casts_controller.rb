@@ -44,6 +44,7 @@ class CastsController < ApplicationController
   end
 
   def create
+
   end
 
   def new

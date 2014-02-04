@@ -2,8 +2,8 @@ class MovieNotFound < StandardError
 end
 
 class Movie < ActiveRecord::Base
-	has_many :casts_members
-	has_many :persons, through: :cast_members
+	has_many :cast_members
+	has_many :people, through: :cast_members
 
 
 	def self.find_movies(person)
