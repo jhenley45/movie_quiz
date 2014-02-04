@@ -1,6 +1,10 @@
 class MoviesController < ApplicationController
 
 
+	def incorrect_person
+
+	end
+
   def show
   end
 
@@ -46,7 +50,7 @@ class MoviesController < ApplicationController
   		#return message to print
   		"Correct, #{person} was in #{movie_title}."
   	else
-  		"Incorrect, #{person} was not in #{movie_title}."
+  		redirect_to :controller => :movies, :action => :incorrect_person
   	end
   end
 

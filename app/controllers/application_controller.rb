@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   	@round = current_user.rounds.last
   	@round.level_up += 1
   	if @round.level_up == 5
-  		binding.pry
   		@round.level += 1
   		@round.level_up = 0
   	end

@@ -1,7 +1,21 @@
 class CastsController < ApplicationController
 
-  def show
+
+
+  def incorrect_movie
+  		binding.pry
+  	  @correct_name = params[:correct_name]
+	  	@search = Tmdb::Search.new
+	  	@search.resource('person') # determines type of resource
+	  	@search.query(@correct_name) # the query to search against
+	  	@person = @search.fetch #make the search
+	  	id = @person.first["id"]
+	  	@wrong_person_movies = Tmdb::Person.credits(id)
+
   end
+
+  def show
+	end
 
   def index
   	if params[:movie].present? && params[:correct_name].present?
@@ -50,10 +64,10 @@ class CastsController < ApplicationController
   		#update level_up
   		update_level_up
   		#return message to print
-  		"Correct, #{name} was in #{movie_name}."
+  		"Correct, #{name} WAS in #{movie_name}."
 
   	else
-  		"Incorrect, #{name} was not in #{movie_name}."
+  		redirect_to :controller => :casts, :action => :incorrect_movie, :correct_name => name
   	end
   end
 

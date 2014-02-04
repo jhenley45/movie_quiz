@@ -47,6 +47,9 @@ gem 'imdb'
 
 gem 'themoviedb'
 
+gem 'flatui-rails'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

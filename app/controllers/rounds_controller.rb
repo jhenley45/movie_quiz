@@ -1,5 +1,9 @@
 class RoundsController < ApplicationController
+
   def index
+    @rounds = Round.all(order: 'score DESC', limit: 10 )
+    #@usernames = @rounds.each {|user| User.find(user_id).username }
+    #@users = User.all
   end
 
   def show

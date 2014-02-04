@@ -1,2 +1,9 @@
 <h1>Rounds#index</h1>
-<p>Find me in app/views/rounds/index.html.erb</p>
+<table border="1">
+<% @rounds.each do | round | %>
+	<tr>
+		<td><%= User.find(round.user_id).username %>:</td>
+		<td> <%= round.score %> </td>
+	</tr>
+<% end %>
+</table>
