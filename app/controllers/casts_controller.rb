@@ -30,6 +30,7 @@ class CastsController < ApplicationController
 	  	#determine if the user input is in this array
 	  	@answer = name_check(@correct_name, @names, @movie_name)
 	  else
+      #Beginning of the game. Get the user input
 	  	@movie = params[:movie]
 	  	#find the cast for this movie
 	  	@cast = Cast.find_cast(@movie)
@@ -61,7 +62,7 @@ class CastsController < ApplicationController
   		"Correct, #{name} WAS in #{movie_name}."
 
   	else
-      # wrong answer
+      # Movie does not belong to the actor/actress, redirect to incorrect_movie
   		redirect_to :controller => :movies, :action => :incorrect_movie, :person => name, :movie_name => movie_name
   	end
   end
