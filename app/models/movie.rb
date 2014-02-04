@@ -22,7 +22,9 @@ class Movie < ActiveRecord::Base
 	# return a  movie OR raise a MovieNotFound exception
 	def self.find_or_create_movie(movie_title)
 		# look in the DB  for the movie with this title
-		movie = Movie.where(title: movie_title)
+		#movie = Movie.where(title: movie_title.split.map(&:capitalize).join(' '))
+		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns array
+		binding.pry
 		if movie.empty?
 			search = Tmdb::Search.new
 			search.resource('movie')
@@ -32,9 +34,9 @@ class Movie < ActiveRecord::Base
 		    raise MovieNotFound, "could not find movie #{movie_title}"
 			else
 				# create the movie
-				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"])
+				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
 				binding.pry
-				#Person.create_cast_members(movie)
+				Person.create_cast_members(movie_results.first, movie)
 			end
 		end
 		movie

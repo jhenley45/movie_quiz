@@ -1,2 +1,11 @@
-<h1>People#new</h1>
-<p>Find me in app/views/people/new.html.erb</p>
+<h2><%= @answer %></h2><br>
+<p>You score is: <%= current_user.rounds.last.score %></p>
+
+
+<%= form_for @person do | f |%>
+	<%= f.label(:name, "Enter an actor/actress:") %>
+  <%= f.text_field(:name) %>
+  <%= f.hidden_field(:movie, value: @movie) %>
+  <%= f.submit value="Go!" %>
+<% end %>
+

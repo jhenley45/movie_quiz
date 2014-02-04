@@ -10,5 +10,8 @@ class PeopleController < ApplicationController
   end
 
   def new
+  	@person = Person.new
+  	@movie = params[:movie]
+  	binding.pry
   end
 end
