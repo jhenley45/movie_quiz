@@ -1,7 +1,19 @@
-<h1>Movies#new</h1>
-<p>Find me in app/views/movies/new.html.erb</p>
+<h2><%= @answer %></h2><br>
+<p>You score is: <%= current_user.rounds.last.score %></p>
 
-<%= form_for @casts do | f |%>
-	Enter a Movie: <%= f.text_field :movie_name %><br>
-	<%= f.submit %>
+
+
+<% if @correct_name.present? %>
+	<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
+		<%= label_tag(:movie, "Enter a movie that #{@correct_name} is in:") %>
+	  <%= text_field_tag(:movie) %>
+	  <%= hidden_field_tag(:correct_name, @correct_name) %>
+	  <%= submit_tag("Go!") %>
+	<% end %>
+<% else %>
+	<%= form_for @movie do | f | %>
+		<%= f.label(:title, "Enter a movie to get started!") %>
+	  <%= f.text_field :title %>
+	  <%= f.submit value="Go!" %>
+<% end %>
 <% end %>

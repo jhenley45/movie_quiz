@@ -3,15 +3,19 @@ MovieQuiz::Application.routes.draw do
 
 
 
+  # get "people/index"
+  # get "people/show"
+  # get "people/create"
+  # get "people/new"
   get "rounds/index"
   get "rounds/show"
   get "rounds/new"
   get "rounds/create"
   #resources :movies
-  get "movies/index"
-  get "movies/show"
-  get "movies/new"
-  get "movies/create"
+  # get "movies/index"
+  # get "movies/show"
+  # get "movies/new"
+  # get "movies/create"
   devise_for :users
   #resources :casts
   get "casts/index"
@@ -19,6 +23,8 @@ MovieQuiz::Application.routes.draw do
   get "casts/new"
   get "casts/create"
 
+  resources :people
+  resources :movies
 
 
   get "casts/incorrect_person" => 'casts#incorrect_person'

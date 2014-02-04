@@ -22,18 +22,19 @@ class Movie < ActiveRecord::Base
 	# return a  movie OR raise a MovieNotFound exception
 	def self.find_or_create_movie(movie_title)
 		# look in the DB  for the movie with this title
-		movie = Movie.find_by_title(movie_title)
-		if movie == nil
+		movie = Movie.where(title: movie_title)
+		if movie.empty?
 			search = Tmdb::Search.new
 			search.resource('movie')
 			search.query(movie_title) # the query to search against
-			movie_results = @search.fetch
+			movie_results = search.fetch
 			if movie_results.empty?
 		    raise MovieNotFound, "could not find movie #{movie_title}"
 			else
 				# create the movie
-				movie = Movie.create!(title: movie_result.first.original_title, tmdb_id: movie_results.first.id)
-				Person.create_cast_members(movie)
+				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"])
+				binding.pry
+				#Person.create_cast_members(movie)
 			end
 		end
 		movie

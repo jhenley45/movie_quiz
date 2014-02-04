@@ -37,7 +37,7 @@ class MoviesController < ApplicationController
 
 
   def create
-
+    binding.pry
     if params[:person].present?
       if params[:person].movies.any? == params[:movie]
         find_or_create_movie(params[:movie])
@@ -46,13 +46,15 @@ class MoviesController < ApplicationController
       end
     end
 
-    find_or_create_movie(params[:movie])
+    Movie.find_or_create_movie(params[:movie]["title"])
+
     redirect_to new_person_path
 
 
   end
 
   def new
+    @movie = Movie.new
   end
 
   private
