@@ -1,0 +1,6 @@
+<h1>Sorry, but <%= @person %> was not in <%=@movie_title %></h1>
+<h2>People who were in <%= @movie_title %>:</h2>
+<% @cast.each do |person| %>
+	<%= person["name"] %><br>
+<% end %>
+

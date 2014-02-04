@@ -1,0 +1,5 @@
+<h1>Sorry, but <%= @person %> was not in <%= @movie_name %></h1>
+<h2>Movies that <%= @person %> WAS in: </h2>
+<% @all_movies.first[1].each do |movie| %>
+	<%= movie["original_title"] %><br>
+<% end %>

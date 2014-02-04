@@ -1,8 +1,11 @@
 class MoviesController < ApplicationController
 
 
-	def incorrect_person
-
+	def incorrect_movie
+    binding.pry
+    @person = params[:person]
+    @movie_name = params[:movie_name]
+    @all_movies = Movie.find_movies(@person)
 	end
 
   def show
@@ -12,7 +15,7 @@ class MoviesController < ApplicationController
   	if params[:person].present?
   		person = params[:person]
   		#find all the movies for this person.
-  		@movies = Movie.find_movie(person)
+  		@movies = Movie.find_movies(person)
   		#clean resulst (returns array)
   		@movie = @movies.first[1]
 
@@ -50,7 +53,7 @@ class MoviesController < ApplicationController
   		#return message to print
   		"Correct, #{person} was in #{movie_title}."
   	else
-  		redirect_to :controller => :movies, :action => :incorrect_person
+  		redirect_to :controller => :casts, :action => :incorrect_person, :person => person, :movie_title => movie_title
   	end
   end
 

@@ -7,14 +7,22 @@ MovieQuiz::Application.routes.draw do
   get "rounds/show"
   get "rounds/new"
   get "rounds/create"
-  resources :movies
+  #resources :movies
+  get "movies/index"
+  get "movies/show"
+  get "movies/new"
+  get "movies/create"
   devise_for :users
-  resources :casts
+  #resources :casts
+  get "casts/index"
+  get "casts/show"
+  get "casts/new"
+  get "casts/create"
 
 
 
-  get "casts/incorrect_movie" => 'casts#incorrect_movie'
-  get "movies/incorrect_person" => 'movies#incorrect_person'
+  get "casts/incorrect_person" => 'casts#incorrect_person'
+  get "movies/incorrect_movie" => 'movies#incorrect_movie'
 
   get "movie_quiz/show"
   get "movie_quiz/index"
