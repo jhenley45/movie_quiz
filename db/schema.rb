@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204210858) do
+ActiveRecord::Schema.define(version: 20140204234400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20140204210858) do
     t.datetime "updated_at"
     t.text     "title"
     t.integer  "tmdb_id"
+    t.boolean  "populated",  default: false
   end
 
   create_table "people", force: true do |t|
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140204210858) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "populated",  default: false
+    t.integer  "tmdb_id"
   end
 
   create_table "rounds", force: true do |t|

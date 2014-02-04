@@ -7,6 +7,8 @@ class PeopleController < ApplicationController
   end
 
   def create
+  	person = params[:person]["name"]
+  	Person.find_by_name(person)
   end
 
   def new

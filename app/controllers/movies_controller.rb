@@ -43,7 +43,13 @@ class MoviesController < ApplicationController
       movie = params[:movie].split.map(&:capitalize).join(' ')
       if params[:person].movies.any? == movie
         Movie.find_or_create_movie(params[:movie]["title"])
-        redirect_to new_person_path
+        #redirect to person path
+        #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
+        if movie.class.name == "Movie"
+          redirect_to new_person_path(:movie => movie["title"])
+        else
+          redirect_to new_person_path(:movie => movie.first["title"])
+        end
       else
         #incorrect answer
       end
