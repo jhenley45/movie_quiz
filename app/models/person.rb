@@ -41,10 +41,13 @@ class Person < ActiveRecord::Base
 		cast = Tmdb::Movie.casts(movie["id"]) #Get the cast
 		binding.pry
 		cast.each do |member|
-			#create a new person for each cast member
-			person = Person.create!(name: member["name"], tmdb_id: member["id"])
-			#create the corresponding cast_members join
-			person.cast_members.create!(movie: movie_object)
+			#check if the person is already in DB by tmdb_id
+			if !Person.find_by(tmdb_id: member["id"])
+				#create a new person for each cast member
+				person = Person.create!(name: member["name"], tmdb_id: member["id"])
+				#create the corresponding cast_members join
+				person.cast_members.create!(movie: movie_object)
+			end
 		end
 	end
 

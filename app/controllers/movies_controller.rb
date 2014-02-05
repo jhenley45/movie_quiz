@@ -39,8 +39,7 @@ class MoviesController < ApplicationController
   def create
     #This will trigger on every turn besides the first
     if params[:person].present?
-      # Format the movie input
-      movie = params[:movie].split.map(&:capitalize).join(' ')
+
       if params[:person].movies.any? == movie
         Movie.find_or_create_movie(params[:movie]["title"])
         #redirect to person path
