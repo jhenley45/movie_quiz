@@ -42,20 +42,29 @@ class MoviesController < ApplicationController
       title = params[:movie]["title"]
       person = params[:movie]["person"]
       #movie = Movie.where("title ILIKE ?", "%#{title}%")
-      if Movie.find_by_movie_name(title) == true && Movie.validate_person(title, person) == true
-        update_score
-        update_level_up
-        #if params[:person].movies.any? == movie
-        movie = Movie.find_or_create_movie(title)
-        #redirect to person path
-        #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
-        if movie.class.name == "Movie"
-          redirect_to new_person_path(:movie => movie["title"])
+      if Movie.find_by_movie_name(title) == true
+        if Movie.validate_person(title, person) == true
+          update_score
+          update_level_up
+          #if params[:person].movies.any? == movie
+          movie = Movie.find_or_create_movie(title)
+          #redirect to person path
+          #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
+          if movie.class.name == "Movie"
+            redirect_to new_person_path(:movie => movie["title"])
+          else
+            redirect_to new_person_path(:movie => movie.first["title"])
+          end
         else
-          redirect_to new_person_path(:movie => movie.first["title"])
+          # this person is not in the movie
+          flash['alert'] = "Sorry, but #{person} is not in #{title}."
+          # end round
+          redirect_to root_path
         end
       else
-        #incorrect answer. Either the movie was not in our DB or the person is not in that movie
+        flash['alert'] = "Sorry, \"#{title}\" does not match any of our records."
+        # end round
+        redirect_to root_path
       end
     else
       #first time. Returns the movie
