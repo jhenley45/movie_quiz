@@ -25,6 +25,7 @@ class Movie < ActiveRecord::Base
 		#movie = Movie.where(title: movie_title.split.map(&:capitalize).join(' '))
 		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
 		binding.pry
+		# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
 		if movie.empty? or !movie.first.populated?
 			search = Tmdb::Search.new
 			search.resource('movie')
@@ -35,18 +36,21 @@ class Movie < ActiveRecord::Base
 			else
 				# create the movie
 				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
-				binding.pry
 				Person.create_cast_members(movie_results.first, movie)
-				#set populated = true
+				#Actors now in people table, set populated = true
 				movie.populated = true
+				movie.save
 			end
 		end
+		#return the movie
 		movie
 	end
 
 
 	def self.create_movies_for_person(person)
+		#Get all of the movies for this person
 		movies = Tmdb::Person.credits(person.tmdb_id)
+
 		movies.first[1].each do |movie|
 			#create a new movie for all of the movies the person is in
 			movie = Movie.create!(title: movie["original_title"], tmdb_id: movie["id"])

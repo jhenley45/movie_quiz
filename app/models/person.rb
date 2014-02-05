@@ -7,25 +7,34 @@ class Person < ActiveRecord::Base
 		person = Person.where("name ILIKE ?", "%#{user_person}%") #returns array
 		binding.pry
 		# See if we have a person that matches
-		if !person.empty? #correct answer!
+		if !person.empty?# Person is already in the DB
 
-			if !person.first.populated?
+			if !person.first.populated? # person is in the DB but we have not populated their movies yet
 				#populate movies db
 				Movie.create_movies_for_person(person.first)
 				#Get all of the movies for this person and set their populated column to true
-				person.populated = true
-				#populate movies db
-
-
-			elsif person.first.populated?
+				binding.pry
+				person.first.populated = true
+				person.first.save
+			else
 				#We have already done the lookup for this person, just check to see if the answer is correct.
 			end
 
-
+			return true
 		else
 			# Round is over. If the person is not found, then they were not in the movie that brought the user here.
+			# redirect_to root_path
 		end
 
+	end
+
+	def self.validate_movie(person, movie)
+		# Get person
+		person = Person.where("name ILIKE ?", "%#{person}%").first
+		# See if the person is in the movie that the user put in.
+		if person.movies.find_by title: movie
+			return true
+		end
 	end
 
 	def self.create_cast_members(movie, movie_object)

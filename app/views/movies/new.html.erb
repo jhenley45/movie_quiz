@@ -1,13 +1,13 @@
-<h2><%= @answer %></h2><br>
+<% if @person.present? %><h2>Correct movie!</h2><br> <% end %>
 <p>You score is: <%= current_user.rounds.last.score %></p>
 
 
 
-<% if @correct_name.present? %>
-	<%= form_tag({controller: "casts", action: "index"}, method: "get") do | f | %>
-		<%= label_tag(:movie, "Enter a movie that #{@correct_name} is in:") %>
-	  <%= text_field_tag(:movie) %>
-	  <%= hidden_field_tag(:correct_name, @correct_name) %>
+<% if @person.present? %>
+	<%= form_for @movie do | f | %>
+		<%= f.label(:title, "Enter a different movie that #{@person} is in:") %>
+	  <%= f.text_field :title %>
+	  <%= f.hidden_field(:person, value: @person) %>
 	  <%= submit_tag("Go!") %>
 	<% end %>
 <% else %>

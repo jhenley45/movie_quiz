@@ -3,7 +3,7 @@
 
 
 <%= form_for @person do | f |%>
-	<%= f.label(:name, "Enter an actor/actress:") %>
+	<%= f.label(:name, "Enter an actor/actress in #{@movie}:") %>
   <%= f.text_field(:name) %>
   <%= f.hidden_field(:movie, value: @movie) %>
   <%= f.submit value="Go!" %>

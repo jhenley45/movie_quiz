@@ -26,13 +26,6 @@ ActiveRecord::Schema.define(version: 20140204234400) do
   add_index "cast_members", ["movie_id"], name: "index_cast_members_on_movie_id", using: :btree
   add_index "cast_members", ["person_id"], name: "index_cast_members_on_person_id", using: :btree
 
-  create_table "movie_searches", force: true do |t|
-    t.text     "title"
-    t.integer  "tmdb_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "movies", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
