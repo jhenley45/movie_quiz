@@ -18,6 +18,8 @@ class Person < ActiveRecord::Base
 				person.first.save
 			else
 				#We have already done the lookup for this person, just check to see if the answer is correct.
+				binding.pry
+				return true
 			end
 
 			return true
@@ -32,8 +34,12 @@ class Person < ActiveRecord::Base
 		# Get person
 		person = Person.where("name ILIKE ?", "%#{person}%").first
 		# See if the person is in the movie that the user put in.
+		binding.pry
 		if person.movies.find_by title: movie
 			return true
+		else
+			#person exists btu is NOT in the given movie. Error.
+			false
 		end
 	end
 

@@ -38,10 +38,17 @@ class MoviesController < ApplicationController
 
   def create
     #This will trigger on every turn besides the first
-    if params[:person].present?
-
-      if params[:person].movies.any? == movie
-        Movie.find_or_create_movie(params[:movie]["title"])
+    if params[:movie]["person"].present?
+      title = params[:movie]["title"]
+      person = params[:movie]["person"]
+      binding.pry
+      #movie = Movie.where("title ILIKE ?", "%#{title}%")
+      if Movie.find_by_movie_name(title) == true && Movie.validate_person(title, person) == true
+      binding.pry
+      update_score
+      update_level_up
+      #if params[:person].movies.any? == movie
+        movie = Movie.find_or_create_movie(title)
         #redirect to person path
         #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
         if movie.class.name == "Movie"
@@ -50,18 +57,19 @@ class MoviesController < ApplicationController
           redirect_to new_person_path(:movie => movie.first["title"])
         end
       else
-        #incorrect answer
+        #incorrect answer. Either the movie was not in our DB or the person is not in that movie
       end
-    end
-
-    #first time. Returns the movie
-    movie = Movie.find_or_create_movie(params[:movie]["title"])
-    #redirect to person path
-    #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
-    if movie.class.name == "Movie"
-      redirect_to new_person_path(:movie => movie["title"])
     else
-      redirect_to new_person_path(:movie => movie.first["title"])
+
+      #first time. Returns the movie
+      movie = Movie.find_or_create_movie(params[:movie]["title"])
+      #redirect to person path
+      #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
+      if movie.class.name == "Movie"
+        redirect_to new_person_path(:movie => movie["title"])
+      else
+        redirect_to new_person_path(:movie => movie.first["title"])
+      end
     end
   end
 

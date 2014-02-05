@@ -16,7 +16,7 @@ class RoundsController < ApplicationController
   def create
   	@round = current_user.rounds.create!
   	if @round.save
-  		redirect_to :controller => :movies, :action => :index
+  		redirect_to :controller => :movies, :action => :new
   	else
   		render :controller => :users, :action => :index
   	end

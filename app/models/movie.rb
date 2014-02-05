@@ -19,6 +19,17 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
+	def self.find_by_movie_name(title)
+		movie = Movie.where("title ILIKE ?", "%#{title}%")
+		binding.pry
+		if !movie.empty? #movie is in the DB
+			return true
+		else
+			#Round is over. If we can't find the movie, then the person that brought us here was not in it.
+			false
+		end
+	end
+
 	# return a  movie OR raise a MovieNotFound exception
 	def self.find_or_create_movie(movie_title)
 		# look in the DB  for the movie with this title
@@ -50,18 +61,29 @@ class Movie < ActiveRecord::Base
 	def self.create_movies_for_person(person)
 		#Get all of the movies for this person
 		movies = Tmdb::Person.credits(person.tmdb_id)
-
+		binding.pry
 		movies.first[1].each do |movie|
-			#create a new movie for all of the movies the person is in
-			movie = Movie.create!(title: movie["original_title"], tmdb_id: movie["id"])
-			#create the corresponding cast_members join
-			movie.cast_members.create!(person: person)
+			#check if the movie exists in the DB
+			if !Movie.find_by(tmdb_id: movie["id"])
+				#create a new movie for all of the movies the person is in
+				movie = Movie.create!(title: movie["original_title"], tmdb_id: movie["id"])
+				#create the corresponding cast_members join
+				movie.cast_members.create!(person: person)
+			end
 		end
 	end
 
 	# movie.has_cast_member?("joe")
-	def has_cast_member?(cast_member_name)
-		self.persons.any? { |person| person.name == cast_member_name }
+	def self.validate_person(title, person)
+		movie = Movie.where("title ILIKE ?", "%#{title}%").first
+		person = Person.where("name ILIKE ?", "%#{person}%").first
+		binding.pry
+		if movie.people.find_by name: person.name
+			true
+		else
+			#round is over
+			false
+		end
 	end
 
 end

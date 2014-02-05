@@ -1,4 +1,4 @@
-<h2><%= @answer %></h2><br>
+<%if current_user.rounds.last.score > 0 %><h2>Correct answer!</h2><br><% end %>
 <p>You score is: <%= current_user.rounds.last.score %></p>
 
 
