@@ -70,6 +70,9 @@ class Movie < ActiveRecord::Base
 				movie = Movie.create!(title: movie["original_title"], tmdb_id: movie["id"])
 				#create the corresponding cast_members join
 				movie.cast_members.create!(person: person)
+			elsif !Movie.find_by(tmdb_id: movie["id"]).cast_members.find_by_person_id(person["id"])
+				movie = Movie.find_by_tmdb_id(movie["id"])
+				movie.cast_members.create!(person: person)
 			end
 		end
 	end
