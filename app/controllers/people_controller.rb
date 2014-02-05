@@ -9,7 +9,6 @@ class PeopleController < ApplicationController
   def create
   	person = params[:person]["name"]
   	movie = params[:person]["movie"]
-  	binding.pry
   	# First returns true if the person is present in the DB
   	# Second returns true if the person is in the movie that the user put in
   	if Person.find_by_name(person) == true && Person.validate_movie(person, movie) == true
@@ -25,7 +24,6 @@ class PeopleController < ApplicationController
   def new
   	@person = Person.new
   	@movie = params[:movie]
-  	binding.pry
   end
 
 end

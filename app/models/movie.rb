@@ -21,7 +21,6 @@ class Movie < ActiveRecord::Base
 
 	def self.find_by_movie_name(title)
 		movie = Movie.where("title ILIKE ?", "%#{title}%")
-		binding.pry
 		if !movie.empty? #movie is in the DB
 			return true
 		else
@@ -35,7 +34,6 @@ class Movie < ActiveRecord::Base
 		# look in the DB  for the movie with this title
 		#movie = Movie.where(title: movie_title.split.map(&:capitalize).join(' '))
 		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
-		binding.pry
 		# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
 		if movie.empty? or !movie.first.populated?
 			search = Tmdb::Search.new
@@ -50,7 +48,6 @@ class Movie < ActiveRecord::Base
 					movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
 				elsif !movie.first.populated? # movie already exists but not populated, assign movie object to movie variable
 					movie = movie.first
-					binding.pry
 				end
 				Person.create_cast_members(movie_results.first, movie)
 				#Actors now in people table, set populated = true
@@ -66,7 +63,6 @@ class Movie < ActiveRecord::Base
 	def self.create_movies_for_person(person)
 		#Get all of the movies for this person
 		movies = Tmdb::Person.credits(person.tmdb_id)
-		binding.pry
 		movies.first[1].each do |movie|
 			#check if the movie exists in the DB
 			if !Movie.find_by(tmdb_id: movie["id"])
@@ -82,7 +78,6 @@ class Movie < ActiveRecord::Base
 	def self.validate_person(title, person)
 		movie = Movie.where("title ILIKE ?", "%#{title}%").first
 		person = Person.where("name ILIKE ?", "%#{person}%").first
-		binding.pry
 		if movie.people.find_by name: person.name
 			true
 		else
@@ -90,5 +85,4 @@ class Movie < ActiveRecord::Base
 			false
 		end
 	end
-
 end

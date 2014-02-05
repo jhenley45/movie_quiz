@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
   		@movie_name = params[:movie_name]
   		#determine if the user input matches the titles we have
   		@answer = movie_check(@movie_name, @titles, @correct_name)
-    end
+      end
   	end
 	end
 
@@ -41,13 +41,11 @@ class MoviesController < ApplicationController
     if params[:movie]["person"].present?
       title = params[:movie]["title"]
       person = params[:movie]["person"]
-      binding.pry
       #movie = Movie.where("title ILIKE ?", "%#{title}%")
       if Movie.find_by_movie_name(title) == true && Movie.validate_person(title, person) == true
-      binding.pry
-      update_score
-      update_level_up
-      #if params[:person].movies.any? == movie
+        update_score
+        update_level_up
+        #if params[:person].movies.any? == movie
         movie = Movie.find_or_create_movie(title)
         #redirect to person path
         #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
@@ -60,7 +58,6 @@ class MoviesController < ApplicationController
         #incorrect answer. Either the movie was not in our DB or the person is not in that movie
       end
     else
-
       #first time. Returns the movie
       movie = Movie.find_or_create_movie(params[:movie]["title"])
       #redirect to person path
