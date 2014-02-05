@@ -10,7 +10,8 @@ class RoundsController < ApplicationController
   end
 
   def new
-
+    @round = Round.new
+    #redirect_to new_user_round_path
   end
 
   def create
@@ -25,5 +26,11 @@ class RoundsController < ApplicationController
   def update
   	@round = @round
 
+  end
+
+  private
+
+  def round_params
+    params.require(:round).permit(:user_id)
   end
 end

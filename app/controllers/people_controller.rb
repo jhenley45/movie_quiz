@@ -18,12 +18,12 @@ class PeopleController < ApplicationController
   			redirect_to new_movie_path(:person => person)
 	  	else
 	  			# this person is not in the movie
-	  			flash['alert'] = "#{person} is not in #{movie}"
+	  			flash['alert'] = "Sorry, but #{person} is not in #{movie}. Final score: #{current_user.rounds.last.score}"
 	  			# end round
 	  			redirect_to root_path
   		end
   	else
-  			flash['alert'] = "Sorry, \"#{person}\" does not match any of our records."
+  			flash['alert'] = "Sorry, \"#{person}\" does not match any of our records. Final score: #{current_user.rounds.last.score}"
   			# end round
   			redirect_to root_path
   	end

@@ -2,4 +2,4 @@
 	<%= user.username %><br>
 <% end %>
 
-<%= link_to 'New Round!', :controller => :rounds, :action => :create %>
+<%= link_to 'New Round!', user_rounds_path(current_user), method: :post %>
