@@ -47,7 +47,8 @@ gem 'imdb'
 
 gem 'themoviedb'
 
-gem 'flatui-rails'
+gem 'flat-ui-rails'
+gem 'bootstrap-sass', '~> 3.1.0'
 
 
 # Use ActiveModel has_secure_password

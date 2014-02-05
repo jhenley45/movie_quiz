@@ -33,7 +33,7 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (2.2.2.0)
+    bootstrap-sass (3.1.0.0)
       sass (~> 3.2)
     builder (3.1.4)
     coderay (1.1.0)
@@ -54,10 +54,7 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.0.2)
-    flatui-rails (0.0.4)
-      bootstrap-sass (= 2.2.2)
-      railties (>= 3.1)
-      sass-rails (>= 3.2.0)
+    flat-ui-rails (0.0.2)
     hike (1.2.3)
     httparty (0.12.0)
       json (~> 1.8)
@@ -156,9 +153,10 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  bootstrap-sass (~> 3.1.0)
   coffee-rails (~> 4.0.0)
   devise
-  flatui-rails
+  flat-ui-rails
   httparty
   imdb
   jbuilder (~> 1.2)

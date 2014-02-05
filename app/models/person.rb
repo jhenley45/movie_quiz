@@ -18,14 +18,12 @@ class Person < ActiveRecord::Base
 				person.first.save
 			else
 				#We have already done the lookup for this person, just check to see if the answer is correct.
-
 				return true
 			end
-
 			return true
 		else
-			# Round is over. If the person is not found, then they were not in the movie that brought the user here.
-			# redirect_to root_path
+			#Person is not in the DB. Wrong answer, return false.
+			return false
 		end
 
 	end
