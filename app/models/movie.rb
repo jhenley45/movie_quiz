@@ -45,8 +45,13 @@ class Movie < ActiveRecord::Base
 			if movie_results.empty?
 		    raise MovieNotFound, "could not find movie #{movie_title}"
 			else
-				# create the movie
-				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
+				# create the movie if it does not exist
+				if movie.empty?
+					movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
+				elsif !movie.first.populated? # movie already exists but not populated, assign movie object to movie variable
+					movie = movie.first
+					binding.pry
+				end
 				Person.create_cast_members(movie_results.first, movie)
 				#Actors now in people table, set populated = true
 				movie.populated = true
