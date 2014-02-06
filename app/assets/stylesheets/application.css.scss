@@ -16,6 +16,13 @@
 
 @import "bootstrap";
 
+body {
+	background: url('cat.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
 
 .flash_notice, .flash_alert {
   padding: 8px 35px 8px 14px;
