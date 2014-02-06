@@ -1,5 +1,7 @@
 <% @users.each do |user| %>
 	<%= user.username %><br>
 <% end %>
-
+<button type="button" class="btn btn-primary btn-lg btn-block">
 <%= link_to 'New Round!', user_rounds_path(current_user), method: :post %>
+</button>
+

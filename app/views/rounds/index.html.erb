@@ -1,9 +1,18 @@
-<h1>Rounds#index</h1>
-<table border="1">
+
+<div class="jumbotron">
+	<h1>Leaderboard</h1>
+</div>
+<table class="table table-striped">
+<th>Username</th>
+<th>Level</th>
+<th>Score</th>
 <% @rounds.each do | round | %>
 	<tr>
-		<td><%= User.find(round.user_id).username %>:</td>
+		<td><a href="<%= user_path(User.find(round.user_id).id) %>"><%= User.find(round.user_id).username %></a></td>
+		<td> <%= round.level %> </td>
 		<td> <%= round.score %> </td>
+
 	</tr>
+
 <% end %>
 </table>

@@ -36,5 +36,5 @@ MovieQuiz::Application.routes.draw do
   get "movie_quiz/show"
   get "movie_quiz/index"
 
-  root to: 'users#index'
+  root to: 'rounds#index'
   end
