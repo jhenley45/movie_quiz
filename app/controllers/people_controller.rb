@@ -1,5 +1,6 @@
 class PeopleController < ApplicationController
 
+
   def index
   end
 
@@ -26,12 +27,14 @@ class PeopleController < ApplicationController
     			redirect_to new_movie_path(:person => person)
           flash['notice'] = "Correct! #{person} was in #{movie}."
   	  	else
+            session[:answers] = nil
   	  			# this person is not in the movie
   	  			flash['alert'] = "Sorry, but #{person} is not in #{movie}. Final score: #{current_user.rounds.last.score}"
   	  			# end round
   	  			redirect_to root_path
     		end
     	else
+          session[:answers] = nil
     			flash['alert'] = "Sorry, \"#{person}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
     			# end round
     			redirect_to root_path
