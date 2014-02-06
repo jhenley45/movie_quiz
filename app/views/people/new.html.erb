@@ -1,10 +1,4 @@
-<div class="user_score">
-	Score: <%= current_user.rounds.last.score %>
-</div>
-<div class="user_level">
-	Level: <%= current_user.rounds.last.level %>
-</div>
-
+<%= render "layouts/score", initial_time: @initial_time %>
 
 <%= form_for @person do | f |%>
 	<div class="user_input_prompt">
@@ -18,4 +12,5 @@
   <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
   </div>
 <% end %>
+
 

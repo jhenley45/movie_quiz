@@ -60,11 +60,9 @@ class MoviesController < ApplicationController
             #redirect to person path
             #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
             if movie.class.name == "Movie"
-              session[:answers] << movie["title"]
               redirect_to new_person_path(:movie => movie["title"])
               flash['notice'] = "Correct! #{person} was in #{title}."
             else
-              session[:answers] << movie.first["title"]
               redirect_to new_person_path(:movie => movie.first["title"])
               flash['notice'] = "Correct! #{person} was in #{title}."
             end
@@ -82,6 +80,11 @@ class MoviesController < ApplicationController
           redirect_to root_path
         end
       end
+    # If the string is empty
+    elsif params[:movie]["title"].empty?
+      flash['alert'] = "You must enter a correct title to start the game, genius. Try again."
+      # end round
+      redirect_to root_path
     else
       #add the movie to the session
       session[:answers] = []
@@ -100,6 +103,7 @@ class MoviesController < ApplicationController
 
   def new
     @movie = Movie.new
+    @initial_time = 12 - (current_user.rounds.last.level * 2)
     @person = params[:person]
   end
 

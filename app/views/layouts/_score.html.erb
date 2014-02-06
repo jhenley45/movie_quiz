@@ -1,0 +1,13 @@
+<div class="user_score">
+	Score: <%= current_user.rounds.last.score %>
+</div>
+<div class="user_level">
+	Level: <%= current_user.rounds.last.level %>
+</div>
+<div class="countdown_timer">
+	Time Remaining: <span id="countdown_time"><%= initial_time %></span>
+</div>
+<%= initial_time %>
+<script>
+	window.onload = function() { MovieApp.startTimer(<%= initial_time %>); };
+</script>

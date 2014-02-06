@@ -41,7 +41,7 @@ class Movie < ActiveRecord::Base
 			search.query(movie_title) # the query to search against
 			movie_results = search.fetch
 			if movie_results.empty?
-		    raise MovieNotFound, "could not find movie #{movie_title}"
+		    return false
 			else
 				# create the movie if it does not exist
 				if movie.empty?

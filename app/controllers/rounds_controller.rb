@@ -4,6 +4,9 @@ class RoundsController < ApplicationController
 
   def index
     @rounds = Round.all(order: 'score DESC', limit: 10 )
+    if params[:timeout] == "true"
+      flash['alert'] = "You ran out of time. Final score: #{current_user.rounds.last.score}"
+    end
     #@usernames = @rounds.each {|user| User.find(user_id).username }
     #@users = User.all
   end

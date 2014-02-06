@@ -44,6 +44,7 @@ class PeopleController < ApplicationController
 
   def new
   	@person = Person.new
+    @initial_time = 12 - (current_user.rounds.last.level * 2)
   	@movie = params[:movie]
   end
 

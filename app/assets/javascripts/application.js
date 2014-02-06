@@ -14,3 +14,19 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+var MovieApp = {
+	secondsLeft: 10,
+	startTimer: function(initial_time) {
+		this.secondsLeft = initial_time;
+		setInterval(function() { MovieApp.countDown() }, 1000);
+	},
+	countDown: function() {
+		console.log(this.secondsLeft);
+		document.getElementById("countdown_time").innerHTML = this.secondsLeft;
+		if (this.secondsLeft === 0) {
+			location.href = "/?timeout=true";
+		}
+		this.secondsLeft = this.secondsLeft - 1;
+	}
+}
