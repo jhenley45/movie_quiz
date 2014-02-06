@@ -48,8 +48,9 @@ class MoviesController < ApplicationController
         # end round
         redirect_to root_path
       else
+        #add title to session
         session[:answers] << title
-      #movie = Movie.where("title ILIKE ?", "%#{title}%")
+        #movie = Movie.where("title ILIKE ?", "%#{title}%")
         if Movie.find_by_movie_name(title) == true
           if Movie.validate_person(title, person) == true
             update_score
@@ -80,18 +81,17 @@ class MoviesController < ApplicationController
         end
       end
     else
+      #add the movie to the session
+      session[:answers] = []
+      session[:answers] << params[:movie]["title"]
       #first time. Returns the movie
       movie = Movie.find_or_create_movie(params[:movie]["title"])
       #redirect to person path
       #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
       if movie.class.name == "Movie"
         redirect_to new_person_path(:movie => movie["title"])
-        session[:answers] = []
-        session[:answers] << movie["title"]
       else
         redirect_to new_person_path(:movie => movie.first["title"])
-        session[:answers] = []
-        session[:answers] << movie.first["title"]
       end
     end
   end
