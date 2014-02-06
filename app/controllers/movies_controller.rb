@@ -51,9 +51,11 @@ class MoviesController < ApplicationController
           #redirect to person path
           #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
           if movie.class.name == "Movie"
+            session[:answers] << movie["title"]
             redirect_to new_person_path(:movie => movie["title"])
             flash['notice'] = "Correct! #{person} was in #{title}."
           else
+            session[:answers] << movie.first["title"]
             redirect_to new_person_path(:movie => movie.first["title"])
             flash['notice'] = "Correct! #{person} was in #{title}."
           end
@@ -64,7 +66,7 @@ class MoviesController < ApplicationController
           redirect_to root_path
         end
       else
-        flash['alert'] = "Sorry, \"#{title}\" does not match any of our records. Final score: #{current_user.rounds.last.score}"
+        flash['alert'] = "Sorry, \"#{title}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
         # end round
         redirect_to root_path
       end
@@ -75,8 +77,12 @@ class MoviesController < ApplicationController
       #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
       if movie.class.name == "Movie"
         redirect_to new_person_path(:movie => movie["title"])
+        session[:answers] = []
+        session[:answers] << movie["title"]
       else
         redirect_to new_person_path(:movie => movie.first["title"])
+        session[:answers] = []
+        session[:answers] << movie.first["title"]
       end
     end
   end
