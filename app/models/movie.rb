@@ -16,16 +16,24 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
+	def self.tmdb_movie_lookup(movie_title)
+		search = Tmdb::Search.new
+		search.resource('movie')
+		search.query(movie_title) # the query to search against
+		movie_results = search.fetch
+	end
+
 	# return a  movie OR raise a MovieNotFound exception
 	def self.find_or_create_movie(movie_title)
 		# look in the DB  for the movie with this title
 		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
 		# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
 		if movie.empty? or !movie.first.populated?
-			search = Tmdb::Search.new
-			search.resource('movie')
-			search.query(movie_title) # the query to search against
-			movie_results = search.fetch
+			# search = Tmdb::Search.new
+			# search.resource('movie')
+			# search.query(movie_title) # the query to search against
+			# movie_results = search.fetch
+			movie_results = Movie.tmdb_movie_lookup(movie_title)
 			if movie_results.empty?
 		    return false
 			else
