@@ -6,14 +6,14 @@
 <% if @person.present? %>
 	<%= form_for @movie do | f | %>
 		<%= f.label(:title, "Enter a different movie that #{@person} is in:") %>
-	  <%= f.text_field :title %>
+	  <%= f.text_field :title %><br>
 	  <%= f.hidden_field(:person, value: @person) %>
-	  <%= submit_tag("Go!") %>
+	  <%= f.submit value="Go!", class: "btn btn-primary" %>
 	<% end %>
 <% else %>
 	<%= form_for @movie do | f | %>
 		<%= f.label(:title, "Enter a movie to get started!") %>
-	  <%= f.text_field :title %>
+	  <%= f.text_field :title %><br>
 	  <%= f.submit value="Go!", class: "btn btn-primary" %>
 <% end %>
 <% end %>

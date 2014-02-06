@@ -8,6 +8,6 @@
 	<%= label_tag(:movie, "Enter an actor/actress in #{@movie_name}:") %>
   <%= text_field_tag(:person) %>
   <%= hidden_field_tag(:movie_name, @movie_name) %>
-  <%= submit_tag("Go!") %>
+  <%= submit_tag("Go!"), class: "btn btn-primary" %>
 <% end %>
 

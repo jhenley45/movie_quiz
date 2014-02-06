@@ -6,6 +6,6 @@
 	<%= f.label(:name, "Enter an actor/actress in #{@movie}:") %>
   <%= f.text_field(:name) %>
   <%= f.hidden_field(:movie, value: @movie) %>
-  <%= f.submit value="Go!" %>
+  <%= f.submit value="Go!", class: "btn btn-primary" %>
 <% end %>
 
