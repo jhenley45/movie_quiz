@@ -1,19 +1,32 @@
 <% if @person.present? %><h2>Correct!</h2><br> <% end %>
-<p>You score is: <%= current_user.rounds.last.score %></p>
+<div class="user_score">
+	Score: <%= current_user.rounds.last.score %>
+</div>
+<div class="user_level">
+	Level: <%= current_user.rounds.last.level %>
+</div>
 
 
 
 <% if @person.present? %>
 	<%= form_for @movie do | f | %>
-		<%= f.label(:title, "Enter a different movie that #{@person} is in:") %>
-	  <%= f.text_field :title %><br>
+		<div class="user_input_prompt">
+			<%= f.label(:title, "Enter a different movie that #{@person} is in:") %>
+		</div>
+	  <%= f.text_field :title, class: "form-control" %><br>
 	  <%= f.hidden_field(:person, value: @person) %>
-	  <%= f.submit value="Go!", class: "btn btn-primary" %>
+	  <div class="new_button">
+	  <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
+	  </div>
 	<% end %>
 <% else %>
 	<%= form_for @movie do | f | %>
+	<div class="user_input_prompt">
 		<%= f.label(:title, "Enter a movie to get started!") %>
-	  <%= f.text_field :title %><br>
-	  <%= f.submit value="Go!", class: "btn btn-primary" %>
+	</div>
+	  <%= f.text_field :title, class: "form-control" %>
+	  <div class="new_button">
+	  <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
+	  </div>
 <% end %>
 <% end %>

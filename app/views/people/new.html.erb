@@ -1,11 +1,20 @@
 <%if current_user.rounds.last.score > 0 %><h2>Correct answer!</h2><br><% end %>
-<p>You score is: <%= current_user.rounds.last.score %></p>
+<div class="user_score">
+	You score is: <%= current_user.rounds.last.score %>
+</div>
+<div class="user_level">
+	Current Level: <%= current_user.rounds.last.level %>
+</div>
 
 
 <%= form_for @person do | f |%>
-	<%= f.label(:name, "Enter an actor/actress in #{@movie}:") %>
-  <%= f.text_field(:name) %>
+	<div class="user_input_prompt">
+		<%= f.label(:name, "Enter an actor/actress in #{@movie}:") %>
+	</div>
+  <%= f.text_field :name, class: "form-control" %>
   <%= f.hidden_field(:movie, value: @movie) %>
-  <%= f.submit value="Go!", class: "btn btn-primary" %>
+  <div class="new_button">
+  <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
+  </div>
 <% end %>
 

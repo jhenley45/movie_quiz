@@ -66,7 +66,33 @@ body {
 .col-md-8.col-md-offset-2 {
 	margin-top: 40px;
 	margin-bottom: 50px;
-	text-align: center;
 	min-height: 500px;
-	background-color: grey;
+	background-color:rgba(0,0,0,0.7);
+  border-radius: 5px;
+}
+
+.new_button {
+  position: absolute;
+  bottom: 30px;
+  width: 95%;
+}
+.user_score {
+  margin-top: 10px;
+  display: inline;
+  float: left;
+  color: white;
+  font-size: 30px;
+}
+.user_level {
+  margin-top: 10px;
+  display: inline;
+  float: right;
+  color: white;
+  font-size: 30px;
+}
+.user_input_prompt {
+  text-align: center;
+  padding-top: 200px;
+  color: white;
+  font-size: 25px;
 }
