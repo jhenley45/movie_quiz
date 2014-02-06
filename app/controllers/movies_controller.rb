@@ -41,34 +41,43 @@ class MoviesController < ApplicationController
     if params[:movie]["person"].present?
       title = params[:movie]["title"]
       person = params[:movie]["person"]
+      #check to see if user input is already in session
+      if session[:answers].include?(title)
+        session[:answers] = nil
+        flash['alert'] = "Sorry, but you already entered #{title}. Final score: #{current_user.rounds.last.score}"
+        # end round
+        redirect_to root_path
+      else
+        session[:answers] << title
       #movie = Movie.where("title ILIKE ?", "%#{title}%")
-      if Movie.find_by_movie_name(title) == true
-        if Movie.validate_person(title, person) == true
-          update_score
-          update_level_up
-          #if params[:person].movies.any? == movie
-          movie = Movie.find_or_create_movie(title)
-          #redirect to person path
-          #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
-          if movie.class.name == "Movie"
-            session[:answers] << movie["title"]
-            redirect_to new_person_path(:movie => movie["title"])
-            flash['notice'] = "Correct! #{person} was in #{title}."
+        if Movie.find_by_movie_name(title) == true
+          if Movie.validate_person(title, person) == true
+            update_score
+            update_level_up
+            #if params[:person].movies.any? == movie
+            movie = Movie.find_or_create_movie(title)
+            #redirect to person path
+            #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
+            if movie.class.name == "Movie"
+              session[:answers] << movie["title"]
+              redirect_to new_person_path(:movie => movie["title"])
+              flash['notice'] = "Correct! #{person} was in #{title}."
+            else
+              session[:answers] << movie.first["title"]
+              redirect_to new_person_path(:movie => movie.first["title"])
+              flash['notice'] = "Correct! #{person} was in #{title}."
+            end
           else
-            session[:answers] << movie.first["title"]
-            redirect_to new_person_path(:movie => movie.first["title"])
-            flash['notice'] = "Correct! #{person} was in #{title}."
+            # this person is not in the movie
+            flash['alert'] = "Sorry, but #{person} is not in #{title}. Final score: #{current_user.rounds.last.score}"
+            # end round
+            redirect_to root_path
           end
         else
-          # this person is not in the movie
-          flash['alert'] = "Sorry, but #{person} is not in #{title}. Final score: #{current_user.rounds.last.score}"
+          flash['alert'] = "Sorry, \"#{title}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
           # end round
           redirect_to root_path
         end
-      else
-        flash['alert'] = "Sorry, \"#{title}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
-        # end round
-        redirect_to root_path
       end
     else
       #first time. Returns the movie
