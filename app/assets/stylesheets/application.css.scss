@@ -24,6 +24,10 @@ body {
 	background-size: cover;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .flash_notice, .flash_alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
@@ -49,6 +53,9 @@ body {
 .navbar.navbar-inverse {
     text-align: center;
 }
+.navbar.navbar-inverse a {
+    text-decoration: none;
+}
 
 .logo {
   font: 400 40px/1.5 'Pacifico', Helvetica, sans-serif;
@@ -63,10 +70,9 @@ body {
   text-decoration: none;
 }
 .user_nav {
-	display: inline;
-	padding-right: 15px;
-	margin-top: 20px;
-	float: right;
+	display: inline-block;
+	padding: 20px 0;
+
 }
 .col-md-8.col-md-offset-2 {
 	margin-top: 40px;
@@ -109,7 +115,7 @@ body {
   color: white;
   text-align: center;
 }
-.navbar {
+.navbar navbar-inverse {
   border-radius: none;
 }
 .user_input_form {
@@ -138,4 +144,17 @@ body {
   margin-top: 10%;
   font-size: 140px;
   color: #c0392b;
+}
+.footer_bottom {
+  margin-bottom: 0;
+  height: 50px;
+  background-color: #222222;
+}
+.footer_text {
+  color: white;
+  padding-top: 15px;
+  margin-left: 100px;
+}
+.footer_text a {
+  text-decoration: none;
 }

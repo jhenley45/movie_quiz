@@ -5,15 +5,12 @@ class Person < ActiveRecord::Base
 
 	def self.find_by_name(user_person)
 		person = Person.where("name ILIKE ?", "%#{user_person}%") #returns array
-
 		# See if we have a person that matches
 		if !person.empty?# Person is already in the DB
-
 			if !person.first.populated? # person is in the DB but we have not populated their movies yet
 				#populate movies db
 				Movie.create_movies_for_person(person.first)
 				#Get all of the movies for this person and set their populated column to true
-
 				person.first.populated = true
 				person.first.save
 			else
@@ -23,16 +20,14 @@ class Person < ActiveRecord::Base
 			return true
 		else
 			#Person is not in the DB. Wrong answer, return false.
-			return false
+			false
 		end
-
 	end
 
 	def self.validate_movie(person, movie)
 		# Get person
 		person = Person.where("name ILIKE ?", "%#{person}%").first
 		# See if the person is in the movie that the user put in.
-
 		if person.movies.find_by title: movie
 			return true
 		else
@@ -43,7 +38,6 @@ class Person < ActiveRecord::Base
 
 	def self.create_cast_members(movie, movie_object)
 		cast = Tmdb::Movie.casts(movie["id"]) #Get the cast
-
 		cast.each do |member|
 			#check if the person is already in DB by tmdb_id
 			# NEED TO CHECK THAT THE SPECIFIC RELATIONSHIP IS NOT ALREADY THERE... should be else statement that JUST creates relationship.
@@ -61,5 +55,4 @@ class Person < ActiveRecord::Base
 			end
 		end
 	end
-
 end

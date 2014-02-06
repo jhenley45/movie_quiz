@@ -6,19 +6,6 @@ class Movie < ActiveRecord::Base
 	has_many :people, through: :cast_members
 
 
-	def self.find_movies(person)
-		@search = Tmdb::Search.new #initialize search
-		@search.resource('person') # determines type of resource
-		@search.query(person) # the query to search against
-		@person = @search.fetch #make the search
-		if @person.empty? == true
-			return
-		else
-			id = @person.first["id"]
-			Tmdb::Person.credits(id)
-		end
-	end
-
 	def self.find_by_movie_name(title)
 		movie = Movie.where("title ILIKE ?", "%#{title}%")
 		if !movie.empty? #movie is in the DB
@@ -32,7 +19,6 @@ class Movie < ActiveRecord::Base
 	# return a  movie OR raise a MovieNotFound exception
 	def self.find_or_create_movie(movie_title)
 		# look in the DB  for the movie with this title
-		#movie = Movie.where(title: movie_title.split.map(&:capitalize).join(' '))
 		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
 		# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
 		if movie.empty? or !movie.first.populated?

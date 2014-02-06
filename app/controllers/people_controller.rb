@@ -35,7 +35,7 @@ class PeopleController < ApplicationController
     		end
     	else
           session[:answers] = nil
-    			flash['alert'] = "Sorry, \"#{person}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
+    			flash['alert'] = "Sorry, but we could not find anyone by the name of '#{person}'. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
     			# end round
     			redirect_to root_path
     	end
@@ -44,7 +44,11 @@ class PeopleController < ApplicationController
 
   def new
   	@person = Person.new
-    @initial_time = 25 - (current_user.rounds.last.level * 5)
+    if current_user.rounds.last.level < 5
+      @initial_time = 25 - (current_user.rounds.last.level * 5)
+    else
+      @initial_time = 5
+    end
   	@movie = params[:movie]
   end
 
