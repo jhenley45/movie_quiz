@@ -97,7 +97,7 @@ body {
 }
 .user_input_prompt {
   text-align: center;
-  padding-top: 200px;
+  padding-top: 60px;
   color: white;
   font-size: 25px;
 }
@@ -113,7 +113,7 @@ body {
   border-radius: none;
 }
 .user_input_form {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 .devise_container {
   text-align: center;
@@ -131,4 +131,11 @@ body {
 }
 .remember_me {
   margin-top: 10px;
+}
+.countdown_timer {
+  text-align: center;
+  color: white;
+  margin-top: 10%;
+  font-size: 140px;
+  color: #c0392b;
 }

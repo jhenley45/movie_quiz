@@ -75,7 +75,7 @@ class MoviesController < ApplicationController
           end
         else
           session[:answers] = nil
-          flash['alert'] = "Sorry, \"#{title}\" does not match any of our records. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
+          flash['alert'] = "Sorry, but we could not find any movies called '#{title}'. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
           # end round
           redirect_to root_path
         end
@@ -103,7 +103,7 @@ class MoviesController < ApplicationController
 
   def new
     @movie = Movie.new
-    @initial_time = 12 - (current_user.rounds.last.level * 2)
+    @initial_time = 25 - (current_user.rounds.last.level * 5)
     @person = params[:person]
   end
 
