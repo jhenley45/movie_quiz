@@ -16,6 +16,7 @@ class PeopleController < ApplicationController
   			update_score
   			update_level_up
   			redirect_to new_movie_path(:person => person)
+        flash['notice'] = "Correct! #{person} was in #{movie}."
 	  	else
 	  			# this person is not in the movie
 	  			flash['alert'] = "Sorry, but #{person} is not in #{movie}. Final score: #{current_user.rounds.last.score}"

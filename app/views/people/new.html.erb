@@ -1,9 +1,8 @@
-<%if current_user.rounds.last.score > 0 %><h2>Correct answer!</h2><br><% end %>
 <div class="user_score">
-	You score is: <%= current_user.rounds.last.score %>
+	Score: <%= current_user.rounds.last.score %>
 </div>
 <div class="user_level">
-	Current Level: <%= current_user.rounds.last.level %>
+	Level: <%= current_user.rounds.last.level %>
 </div>
 
 

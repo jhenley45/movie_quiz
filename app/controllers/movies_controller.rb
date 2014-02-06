@@ -52,8 +52,10 @@ class MoviesController < ApplicationController
           #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
           if movie.class.name == "Movie"
             redirect_to new_person_path(:movie => movie["title"])
+            flash['notice'] = "Correct! #{person} was in #{title}."
           else
             redirect_to new_person_path(:movie => movie.first["title"])
+            flash['notice'] = "Correct! #{person} was in #{title}."
           end
         else
           # this person is not in the movie
