@@ -10,8 +10,10 @@
 	<div class="user_input_prompt">
 		<%= f.label(:name, "Enter an actor/actress in #{@movie}:") %>
 	</div>
+	<div class="user_input_form">
   <%= f.text_field :name, class: "form-control" %>
   <%= f.hidden_field(:movie, value: @movie) %>
+  </div>
   <div class="new_button">
   <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
   </div>

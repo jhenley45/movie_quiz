@@ -8,6 +8,8 @@ class UsersController < ApplicationController
 	end
 
 	def show
-
+		@rounds = User.find(params[:id]).rounds.all(order: 'score DESC', limit: 10 )
+		@user = User.find(params[:id])
 	end
+
 end

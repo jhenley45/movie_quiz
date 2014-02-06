@@ -12,8 +12,10 @@
 		<div class="user_input_prompt">
 			<%= f.label(:title, "Enter a different movie that #{@person} is in:") %>
 		</div>
+		<div class="user_input_form">
 	  <%= f.text_field :title, class: "form-control" %><br>
 	  <%= f.hidden_field(:person, value: @person) %>
+	  </div>
 	  <div class="new_button">
 	  <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
 	  </div>
@@ -23,7 +25,9 @@
 	<div class="user_input_prompt">
 		<%= f.label(:title, "Enter a movie to get started!") %>
 	</div>
+	<div class="user_input_form">
 	  <%= f.text_field :title, class: "form-control" %>
+	  </div>
 	  <div class="new_button">
 	  <%= f.submit value="Go!", class: "btn btn-primary btn-lg btn-block" %>
 	  </div>

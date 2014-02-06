@@ -1,0 +1,17 @@
+<div class="jumbotron">
+	<h1><%= @user.username %></h1>
+</div>
+<table class="table">
+<th>Username</th>
+<th>Level</th>
+<th>Score</th>
+<% @rounds.each do | round | %>
+	<tr>
+		<td><%= @user.username %></a></td>
+		<td> <%= round.level %> </td>
+		<td> <%= round.score %> </td>
+
+	</tr>
+
+<% end %>
+</table>
