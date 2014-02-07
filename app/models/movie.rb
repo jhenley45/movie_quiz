@@ -6,7 +6,7 @@ class Movie < ActiveRecord::Base
 	has_many :people, through: :cast_members
 
 
-	def self.find_by_movie_name(title)
+	def self.check_movie_name(title)
 		movie = Movie.where("title ILIKE ?", "%#{title}%")
 		if !movie.empty? #movie is in the DB
 			return true
@@ -16,6 +16,7 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
+	# Searched tmdb for a movie
 	def self.tmdb_movie_lookup(movie_title)
 		search = Tmdb::Search.new
 		search.resource('movie')
@@ -23,33 +24,29 @@ class Movie < ActiveRecord::Base
 		movie_results = search.fetch
 	end
 
-	# return a  movie OR raise a MovieNotFound exception
-	def self.find_or_create_movie(movie_title)
-		# look in the DB  for the movie with this title
-		movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
-		# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
-		if movie.empty? or !movie.first.populated?
-			# search = Tmdb::Search.new
-			# search.resource('movie')
-			# search.query(movie_title) # the query to search against
-			# movie_results = search.fetch
-			movie_results = Movie.tmdb_movie_lookup(movie_title)
-			if movie_results.empty?
-		    return false
-			else
-				# create the movie if it does not exist
-				if movie.empty?
-					movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
-				elsif !movie.first.populated? # movie already exists but not populated, assign movie object to movie variable
-					movie = movie.first
-				end
-				Person.create_cast_members(movie_results.first, movie)
-				#Actors now in people table, set populated = true
-				movie.populated = true
-				movie.save
-			end
+	def self.find_movie_in_db(movie_title)
+		movie = Movie.where("title ILIKE ?", "%#{movie_title}%")
+		if movie.empty?
+			return false
+		elsif !movie.first.populated?
+			Person.create_cast_members(movie.first)
+			#Actors now in people table, set populated = true
+			movie.first.populated = true
+			movie.first.save
 		end
-		#return the movie
+		movie.first #return movie object
+	end
+
+	def self.create_new_movie(movie_title)
+		movie_results = Movie.tmdb_movie_lookup(movie_title)
+		if movie_results.empty?
+			return false
+		end
+		movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"])
+		Person.create_cast_members(movie)
+		#Actors now in people table, set populated = true
+		movie.populated = true
+		movie.save
 		movie
 	end
 
@@ -82,4 +79,31 @@ class Movie < ActiveRecord::Base
 			false
 		end
 	end
+	# return a  movie OR raise a MovieNotFound exception
+	# def self.find_or_create_movie(movie_title)
+	# 	# look in the DB  for the movie with this title
+	# 	movie = Movie.where("title ILIKE ?", "%#{movie_title}%") #returns ActiveRecord relation
+	# 	# need to populate all of the actors for the movie if it is not in the DB, or if we have not done so yet.
+	# 	if movie.empty? or !movie.first.populated?
+	# 		# Get the movie from the db
+	# 		movie_results = Movie.tmdb_movie_lookup(movie_title)
+	# 		if movie_results.empty?
+	# 	    return false
+	# 		else
+	# 			# create the movie if it does not exist
+	# 			if movie.empty?
+	# 				movie = Movie.create!(title: movie_results.first["original_title"], tmdb_id: movie_results.first["id"]) #returns object
+	# 			elsif !movie.first.populated? # movie already exists but not populated, assign movie object to movie variable
+	# 				movie = movie.first
+	# 			end
+	# 			Person.create_cast_members(movie_results.first, movie)
+	# 			#Actors now in people table, set populated = true
+	# 			movie.populated = true
+	# 			movie.save
+	# 		end
+	# 	end
+	# 	#return the movie
+	# 	movie
+	# end
+
 end

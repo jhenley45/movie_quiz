@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  before_action :authenticate_user!
 
 
   def index
@@ -12,14 +13,14 @@ class PeopleController < ApplicationController
   	movie = params[:person]["movie"]
     #check the answer to see if it's already in the session
     if session[:answers].include?(person)
+      # We got a cheater on our hands...
       session[:answers] = nil
       flash['alert'] = "Sorry, but you already entered #{person}. Final score: #{current_user.rounds.last.score}"
-      # end round
       redirect_to root_path
     else
     	# First returns true if the person is present in the DB
-    	# Second returns true if the person is in the movie that the user put in
     	if Person.find_by_name(person) == true
+        # Returns true if the person is in the movie that the user put in
     		if Person.validate_movie(person, movie) == true
     			update_score
     			update_level_up
@@ -27,16 +28,15 @@ class PeopleController < ApplicationController
     			redirect_to new_movie_path(:person => person)
           flash['notice'] = "Correct! #{person} was in #{movie}."
   	  	else
+          # the person exitst but is not in this movie
             session[:answers] = nil
-  	  			# this person is not in the movie
-  	  			flash['alert'] = "Sorry, but #{person} is not in #{movie}. Final score: #{current_user.rounds.last.score}"
-  	  			# end round
+  	  			flash['alert'] = "Sorry, but #{person} was not in #{movie}. Final score: #{current_user.rounds.last.score}"
   	  			redirect_to root_path
     		end
     	else
+          # The person does not exist in the DB and was therefore not in the move that brought us here
           session[:answers] = nil
-    			flash['alert'] = "Sorry, but we could not find anyone by the name of '#{person}'. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
-    			# end round
+    			flash['alert'] = "Sorry, but #{person} was not in #{movie}. Final score: #{current_user.rounds.last.score}"
     			redirect_to root_path
     	end
     end
@@ -45,9 +45,9 @@ class PeopleController < ApplicationController
   def new
   	@person = Person.new
     if current_user.rounds.last.level < 5
-      @initial_time = 25 - (current_user.rounds.last.level * 5)
+      @initial_time = 22 - (current_user.rounds.last.level * 2)
     else
-      @initial_time = 5
+      @initial_time = 15
     end
   	@movie = params[:movie]
   end

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   	#get the current round for the user
   		@round = current_user.rounds.last
   		#increment the score
-  		@round.score += 5
+  		@round.score += (1000 * current_user.rounds.last.level)
   		#save the new score
   		@round.save
   end

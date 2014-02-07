@@ -36,22 +36,21 @@ class Person < ActiveRecord::Base
 		end
 	end
 
-	def self.create_cast_members(movie, movie_object)
-		cast = Tmdb::Movie.casts(movie["id"]) #Get the cast
+	def self.create_cast_members(movie)
+		cast = Tmdb::Movie.casts(movie.tmdb_id) #Get the cast
 		cast.each do |member|
 			#check if the person is already in DB by tmdb_id
-			# NEED TO CHECK THAT THE SPECIFIC RELATIONSHIP IS NOT ALREADY THERE... should be else statement that JUST creates relationship.
 			if !Person.find_by(tmdb_id: member["id"])
 				#create a new person for each cast member
 				person = Person.create!(name: member["name"], tmdb_id: member["id"])
 				#create the corresponding cast_members join
-				person.cast_members.create!(movie: movie_object)
+				person.cast_members.create!(movie: movie)
 			#If the person is there but the relationship is not, we need to create the relationship
-			elsif !Person.find_by(tmdb_id: member["id"]).cast_members.find_by_movie_id(movie_object["id"])
+			elsif !Person.find_by(tmdb_id: member["id"]).cast_members.find_by_movie_id(movie["id"])
 				#find the person
 				person = Person.find_by_tmdb_id(member["id"])
 				#create the relationship
-				person.cast_members.create!(movie: movie_object)
+				person.cast_members.create!(movie: movie)
 			end
 		end
 	end
