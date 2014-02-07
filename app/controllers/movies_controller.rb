@@ -1,13 +1,8 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!
 
-
-  def show
-  end
-
   def index
 	end
-
 
   def create
     #This will trigger on every turn besides the first
@@ -34,15 +29,6 @@ class MoviesController < ApplicationController
             movie = Movie.find_movie_in_db(title)
             redirect_to new_person_path(:movie => movie["title"])
             flash['notice'] = "Correct! #{person} was in #{title}."
-
-            #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
-            # if movie.class.name == "Movie"
-            #   redirect_to new_person_path(:movie => movie["title"])
-            #   flash['notice'] = "Correct! #{person} was in #{title}."
-            # else
-            #   redirect_to new_person_path(:movie => movie.first["title"])
-            #   flash['notice'] = "Correct! #{person} was in #{title}."
-            # end
           else
             session[:answers] = nil
             # this person is not in the movie
@@ -67,7 +53,6 @@ class MoviesController < ApplicationController
       session[:answers] = []
       session[:answers] << params[:movie]["title"]
       #first time. Returns the movie
-      #movie = Movie.find_or_create_movie(params[:movie]["title"])
       movie = Movie.find_movie_in_db(params[:movie]["title"])
       if movie == false
         movie = Movie.create_new_movie(params[:movie]["title"])
@@ -79,13 +64,6 @@ class MoviesController < ApplicationController
       end
       # All is well. Redirect to new person with sanitated movie title
       redirect_to new_person_path(:movie => movie["title"])
-      #redirect to person path
-      #Movie could either be ActiveRecord relation (if it existed) or movie object (if it's a new movie).
-      # if movie.class.name == "Movie"
-      #   redirect_to new_person_path(:movie => movie["title"])
-      # else
-      #   redirect_to new_person_path(:movie => movie.first["title"])
-      # end
     end
   end
 

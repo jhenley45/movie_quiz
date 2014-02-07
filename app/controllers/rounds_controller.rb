@@ -1,7 +1,6 @@
 class RoundsController < ApplicationController
   before_action :authenticate_user!
 
-
   def index
     @rounds = Round.all(order: 'score DESC', limit: 10 )
     if params[:timeout] == "true"
@@ -28,7 +27,6 @@ class RoundsController < ApplicationController
 
   def update
   	@round = @round
-
   end
 
   private

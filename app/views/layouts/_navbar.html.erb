@@ -1,0 +1,16 @@
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="col-sm-4 col-sm-offset-4">
+				<div class="logo">
+						<%= link_to "MovieQuiz", root_path %>
+				</div>
+			</div>
+			<div class="col-sm-4 text-center">
+				<div class="user_nav">
+					<% if user_signed_in? %>
+						<%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+					<% else %>
+						<%= link_to "Sign Up", new_user_registration_path %> or <%= link_to "Sign In", new_user_session_path %>
+					<% end %>
+				</div>
+			</div>
+		</nav>
