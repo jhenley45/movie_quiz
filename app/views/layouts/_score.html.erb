@@ -4,9 +4,11 @@
 <div class="user_level">
 	Level: <%= current_user.rounds.last.level %>
 </div>
-<div class="countdown_timer">
-	 <span id="countdown_time"><%= initial_time %></span>
-</div>
-<script>
-	window.onload = function() { MovieApp.startTimer(<%= initial_time %>); };
-</script>
+<% if @person.present? %>
+	<div class="countdown_timer">
+		 <span id="countdown_time"><%= initial_time %></span>
+	</div>
+		<script>
+			window.onload = function() { MovieApp.startTimer(<%= initial_time %>); };
+		</script>
+<% end %>
