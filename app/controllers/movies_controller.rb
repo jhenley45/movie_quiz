@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
           end
         else
           session[:answers] = nil
-          flash['alert'] = "Sorry, but we could not find any movies called '#{title}'. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
+          flash['alert'] = "Sorry, but we could not find any movies called '#{title}' that #{person} was in. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
           # end round
           redirect_to root_path
         end
