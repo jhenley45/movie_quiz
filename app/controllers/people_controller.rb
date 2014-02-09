@@ -39,7 +39,7 @@ class PeopleController < ApplicationController
       	end
       end
     else
-      flash['alert'] = "That round is over, you cheater."
+      flash['alert'] = "Cheating is bad for your health."
       redirect_to root_path
     end
   end
