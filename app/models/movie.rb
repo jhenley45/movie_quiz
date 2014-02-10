@@ -5,6 +5,8 @@ class Movie < ActiveRecord::Base
 	has_many :cast_members
 	has_many :people, through: :cast_members
 
+	validates :title, presence: true
+
 
 	def self.check_movie_name(title)
 		movie = Movie.where("title ILIKE ?", "%#{title}%")
