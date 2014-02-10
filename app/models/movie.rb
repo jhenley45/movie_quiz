@@ -6,6 +6,7 @@ class Movie < ActiveRecord::Base
 	has_many :people, through: :cast_members
 
 	validates :title, presence: true
+	validates :tmdb_id, presence: true
 
 
 	def self.check_movie_name(title)
