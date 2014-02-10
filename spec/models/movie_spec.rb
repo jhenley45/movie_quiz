@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe Movie do
 
-	it 'is invalid without a title' do
-		expect(Movie.create(tmdb_id: 54345, populated: false)).to_not be_valid
-	end
-	it 'is invalid without a tmdb_id' do
-		expect(Movie.create(title: 'The Departed', populated: false)).to_not be_valid
+	describe 'validations' do
+		it { should validate_presence_of(:title) }
+		it { should validate_presence_of(:tmdb_id) }
+		it { should validate_presence_of(:populated) }
 	end
 
 
