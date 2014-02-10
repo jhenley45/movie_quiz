@@ -27,10 +27,16 @@ describe Movie do
   end
 
   describe '.tmdb_movie_lookup' do
+  	before :each do
+  		@departed = Movie.tmdb_movie_lookup('the departed')
+  	end
+
   	it 'should return an array when called' do
   		expect(Movie.tmdb_movie_lookup('test')).to be_an_instance_of(Array)
   	end
-
+  	it 'should return the title of a movie within the array' do
+  		expect(@departed.first["original_title"]).to eq 'The Departed'
+  	end
   end
 
 end
