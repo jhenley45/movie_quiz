@@ -26,4 +26,11 @@ describe Movie do
   	end
   end
 
+  describe '.tmdb_movie_lookup' do
+  	it 'should return an array when called' do
+  		expect(Movie.tmdb_movie_lookup('test')).to be_an_instance_of(Array)
+  	end
+
+  end
+
 end
