@@ -7,7 +7,7 @@ class Movie < ActiveRecord::Base
 
 	validates :title, presence: true
 	validates :tmdb_id, presence: true
-	validates :populated, presence: true
+
 
 
 	def self.check_movie_name(title)

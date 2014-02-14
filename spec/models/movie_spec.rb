@@ -52,4 +52,11 @@ describe Movie do
   	end
   end
 
+  # describe '.create_new_movie' do
+  # 	it 'should create a new movie' do
+  # 		expect(Movie.create_new_movie('swingers')).to be_an_instance_of(Movie)
+  # 	end
+
+  end
+
 end

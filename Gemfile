@@ -32,6 +32,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem "bullet", :group => "development"
+
 gem 'rottentomatoes'
 
 gem 'pry-rails'
@@ -59,6 +61,8 @@ end
 gem 'shoulda-matchers'
 
 gem 'simplecov', require: false, group: :test
+
+gem 'newrelic_rpm'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
