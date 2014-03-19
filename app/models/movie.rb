@@ -30,13 +30,18 @@ class Movie < ActiveRecord::Base
 		movie = Movie.lookup_by_title(movie_title)
 		if movie.empty?
 			return false
-		elsif !movie.first.populated?
-			Person.create_cast_members(movie.first)
-			#Actors now in people table, set populated = true
-			movie.first.populated = true
-			movie.first.save
+		else
+			movie.first.populate_cast_members?
+			return movie.first
 		end
-		movie.first #return movie object
+	end
+
+	def populate_cast_members?
+		if !self.populated?
+			Person.create_cast_members(movie)
+			movie.populated = true
+			movie.save
+		end
 	end
 
 	def self.create_new_movie(movie_title)
@@ -72,8 +77,7 @@ class Movie < ActiveRecord::Base
 
 	# movie.has_cast_member?("joe")
 	def self.validate_person(title, person)
-		movie = Movie.lookup_by_title(title)
-		movie = movie.first
+		movie = Movie.lookup_by_title(title).first
 		person = Person.lookup_person_by_name(person).first
 		if movie.people.find_by name: person.name
 			true

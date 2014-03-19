@@ -26,8 +26,7 @@ class Person < ActiveRecord::Base
 
 	def self.validate_movie(person, movie)
 		# Get person
-		person = Person.lookup_person_by_name(person)
-		person = person.first
+		person = Person.lookup_person_by_name(person).first
 		# See if the person is in the movie that the user put in.
 		if person.movies.find_by title: movie
 			return true
