@@ -3,26 +3,23 @@ class Person < ActiveRecord::Base
 	has_many :movies, through: :cast_members
 
 
-	def self.find_person_by_name(user_person)
+	def self.lookup_person_in_db(user_person)
 		person = Person.where("name ILIKE ?", "%#{user_person}%").first
 		# See if we have a person that matches
-		if person.present?# Person is already in the DB
-			person.person_populate_cast_members?
-			return true
+		if !person.present?# Person is not in DB
+			return false
 		else
-			#Person is not in the DB. Wrong answer, return false.
-			false
+			person.person_populate_cast_members?
+			return person
 		end
 	end
 
-	def self.validate_movie(person, movie)
-		# Get person
-		person = Person.lookup_person_by_name(person)
+	def validate_movie(movie)
 		# See if the person is in the movie that the user put in.
-		if person.movies.find_by title: movie
+		if self.movies.find_by title: movie
 			return true
 		else
-			#person exists btu is NOT in the given movie. Error.
+			#person exists but is NOT in the given movie. Error.
 			false
 		end
 	end
@@ -56,7 +53,4 @@ class Person < ActiveRecord::Base
 		end
 	end
 
-	def self.lookup_person_by_name(name)
-		Person.where("name ILIKE ?", "%#{name}%").first
-	end
 end

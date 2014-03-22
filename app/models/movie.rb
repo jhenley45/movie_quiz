@@ -40,8 +40,7 @@ class Movie < ActiveRecord::Base
 
 	# Check to see if the person is in the movie
 	def validate_person_in_movie(person)
-		binding.pry
-		person = Person.lookup_person_by_name(person)
+		person = Person.lookup_person_in_db(person)
 		if self.people.find_by name: person.name
 			true
 		else
