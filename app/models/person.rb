@@ -4,7 +4,7 @@ class Person < ActiveRecord::Base
 
 
 	def self.find_by_name(user_person)
-		person = Person.where("name ILIKE ?", "%#{user_person}%") #returns array
+		person = Person.lookup_person_by_name(user_person)
 		# See if we have a person that matches
 		if !person.empty?# Person is already in the DB
 			if !person.first.populated? # person is in the DB but we have not populated their movies yet
@@ -26,7 +26,7 @@ class Person < ActiveRecord::Base
 
 	def self.validate_movie(person, movie)
 		# Get person
-		person = Person.where("name ILIKE ?", "%#{person}%").first
+		person = Person.lookup_person_by_name(person).first
 		# See if the person is in the movie that the user put in.
 		if person.movies.find_by title: movie
 			return true
@@ -53,5 +53,9 @@ class Person < ActiveRecord::Base
 				person.cast_members.create!(movie: movie)
 			end
 		end
+	end
+
+	def self.lookup_person_by_name(name)
+		Person.where("name ILIKE ?", "%#{name}%") #returns array
 	end
 end

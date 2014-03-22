@@ -4,10 +4,12 @@ end
 class Movie < ActiveRecord::Base
 	has_many :cast_members
 	has_many :people, through: :cast_members
+	validates :title, presence: true
+	validates :tmdb_id, presence: true
 
 
 	def self.check_movie_name(title)
-		movie = Movie.where("title ILIKE ?", "%#{title}%")
+		movie = Movie.lookup_by_title(title)
 		if !movie.empty? #movie is in the DB
 			return true
 		else
@@ -25,16 +27,21 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.find_movie_in_db(movie_title)
-		movie = Movie.where("title ILIKE ?", "%#{movie_title}%")
+		movie = Movie.lookup_by_title(movie_title)
 		if movie.empty?
 			return false
-		elsif !movie.first.populated?
-			Person.create_cast_members(movie.first)
-			#Actors now in people table, set populated = true
-			movie.first.populated = true
-			movie.first.save
+		else
+			movie.first.populate_cast_members?
+			return movie.first
 		end
-		movie.first #return movie object
+	end
+
+	def populate_cast_members?
+		if !self.populated?
+			Person.create_cast_members(movie)
+			movie.populated = true
+			movie.save
+		end
 	end
 
 	def self.create_new_movie(movie_title)
@@ -70,13 +77,17 @@ class Movie < ActiveRecord::Base
 
 	# movie.has_cast_member?("joe")
 	def self.validate_person(title, person)
-		movie = Movie.where("title ILIKE ?", "%#{title}%").first
-		person = Person.where("name ILIKE ?", "%#{person}%").first
+		movie = Movie.lookup_by_title(title).first
+		person = Person.lookup_person_by_name(person).first
 		if movie.people.find_by name: person.name
 			true
 		else
 			#round is over
 			false
 		end
+	end
+
+	def self.lookup_by_title(title)
+		Movie.where("title ILIKE ?", "%#{title}%") #returns array
 	end
 end
