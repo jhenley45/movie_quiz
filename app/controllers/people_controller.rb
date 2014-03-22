@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
         redirect_to root_path
       else
       	# First returns true if the person is present in the DB
-      	if Person.find_by_name(person) == true
+      	if Person.find_person_by_name(person) == true
           # Returns true if the person is in the movie that the user put in
       		if Person.validate_movie(person, movie) == true
       			update_score

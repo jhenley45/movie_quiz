@@ -3,11 +3,11 @@ class Person < ActiveRecord::Base
 	has_many :movies, through: :cast_members
 
 
-	def self.find_by_name(user_person)
-		person = Person.where("name ILIKE ?", "%#{user_person}%") #returns array
+	def self.find_person_by_name(user_person)
+		person = Person.where("name ILIKE ?", "%#{user_person}%").first
 		# See if we have a person that matches
-		if !person.empty?# Person is already in the DB
-			if !person.first.populated? # person is in the DB but we have not populated their movies yet
+		if !person.present?# Person is already in the DB
+			if !person.populated? # person is in the DB but we have not populated their movies yet
 				#populate movies db
 				Movie.create_movies_for_person(person.first)
 				#Get all of the movies for this person and set their populated column to true
