@@ -1,5 +1,6 @@
 class PeopleController < ApplicationController
   before_action :authenticate_user!
+  before_filter :get_user
 
   def index
   end
@@ -18,7 +19,6 @@ class PeopleController < ApplicationController
       else
       	# First returns true if the person is present in the DB
         person = Person.lookup_person_in_db(person)
-        binding.pry
         if !person
           # The person does not exist in the DB and was therefore not in the move that brought us here
           session[:answers] = nil
@@ -26,8 +26,8 @@ class PeopleController < ApplicationController
           redirect_to root_path
         elsif person.validate_movie(movie) == true
           # Returns true if the person is in the movie that the user put in
-    			update_score
-    			update_level_up
+    			@user.update_score
+    			@user.update_level_up
           session[:answers] << person
     			redirect_to new_movie_path(:person => person)
           flash['notice'] = "Correct! #{person} was in #{movie}."

@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!
+  before_filter :get_user
 
   def index
 	end
@@ -22,30 +23,27 @@ class MoviesController < ApplicationController
           session[:answers] << title
           #Check to see if the movie is in the DB
           movie = Movie.find_movie_in_db(title)
-          binding.pry
           # no movie in DB
           if !movie
             session[:answers] = nil
             flash['alert'] = "Sorry, but we could not find any movies called '#{title}' that #{person} was in. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
             # end round
             redirect_to root_path
+          #Check to see that the movie belongs to the person
+          elsif movie.validate_person_in_movie(person) == true
+            #correct answer
+            @user.update_score
+            @user.update_level_up
+            # Get the movie to pass to person#new in correct format
+            movie = Movie.find_movie_in_db(title)
+            redirect_to new_person_path(:movie => movie["title"])
+            flash['notice'] = "Correct! #{person} was in #{title}."
           else
-            #Check to see that the movie belongs to the person
-            if movie.validate_person_in_movie(person) == true
-              #correct answer
-              update_score
-              update_level_up
-              # Get the movie to pass to person#new in correct format
-              movie = Movie.find_movie_in_db(title)
-              redirect_to new_person_path(:movie => movie["title"])
-              flash['notice'] = "Correct! #{person} was in #{title}."
-            else
-              session[:answers] = nil
-              # this person is not in the movie
-              flash['alert'] = "Sorry, but #{person} is not in #{title}. Final score: #{current_user.rounds.last.score}"
-              # end round
-              redirect_to root_path
-            end
+            session[:answers] = nil
+            # this person is not in the movie
+            flash['alert'] = "Sorry, but #{person} is not in #{title}. Final score: #{current_user.rounds.last.score}"
+            # end round
+            redirect_to root_path
           end
         end
       else
