@@ -6,17 +6,8 @@ class Person < ActiveRecord::Base
 	def self.find_person_by_name(user_person)
 		person = Person.where("name ILIKE ?", "%#{user_person}%").first
 		# See if we have a person that matches
-		if !person.present?# Person is already in the DB
-			if !person.populated? # person is in the DB but we have not populated their movies yet
-				#populate movies db
-				Movie.create_movies_for_person(person.first)
-				#Get all of the movies for this person and set their populated column to true
-				person.first.populated = true
-				person.first.save
-			else
-				#We have already done the lookup for this person, just check to see if the answer is correct.
-				return true
-			end
+		if person.present?# Person is already in the DB
+			person.person_populate_cast_members?
 			return true
 		else
 			#Person is not in the DB. Wrong answer, return false.
@@ -33,6 +24,16 @@ class Person < ActiveRecord::Base
 		else
 			#person exists btu is NOT in the given movie. Error.
 			false
+		end
+	end
+
+	def person_populate_cast_members?
+		if !self.populated?
+			#populate movies db
+			Movie.create_movies_for_person(self)
+			#Get all of the movies for this person and set their populated column to true
+			self.populated = true
+			self.save
 		end
 	end
 

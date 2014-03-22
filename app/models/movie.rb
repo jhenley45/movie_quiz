@@ -10,7 +10,7 @@ class Movie < ActiveRecord::Base
 
 	def self.check_movie_name(title)
 		movie = Movie.lookup_by_title(title)
-		if !movie.empty? #movie is in the DB
+		if movie.present? #movie is in the DB
 			return true
 		else
 			#Round is over. If we can't find the movie, then the person that brought us here was not in it.
@@ -28,19 +28,19 @@ class Movie < ActiveRecord::Base
 
 	def self.find_movie_in_db(movie_title)
 		movie = Movie.lookup_by_title(movie_title)
-		if movie.empty?
+		if !movie.present?
 			return false
 		else
-			movie.first.populate_cast_members?
-			return movie.first
+			movie.populate_cast_members?
+			return movie
 		end
 	end
 
 	def populate_cast_members?
 		if !self.populated?
-			Person.create_cast_members(movie)
-			movie.populated = true
-			movie.save
+			Person.create_cast_members(self)
+			self.populated = true
+			self.save
 		end
 	end
 
@@ -75,9 +75,9 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	# movie.has_cast_member?("joe")
+	# Check to see if the person is in the movie
 	def self.validate_person(title, person)
-		movie = Movie.lookup_by_title(title).first
+		movie = Movie.lookup_by_title(title)
 		person = Person.lookup_person_by_name(person).first
 		if movie.people.find_by name: person.name
 			true
@@ -87,7 +87,8 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
+	# Get movie object out of DB
 	def self.lookup_by_title(title)
-		Movie.where("title ILIKE ?", "%#{title}%") #returns array
+		Movie.where("title ILIKE ?", "%#{title}%").first
 	end
 end
