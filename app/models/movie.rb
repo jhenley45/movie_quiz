@@ -8,7 +8,7 @@ class Movie < ActiveRecord::Base
 	validates :tmdb_id, presence: true
 
 	def self.find_movie_in_db(movie_title)
-		movie = Movie.lookup_by_title(movie_title)
+		movie = Movie.where("title ILIKE ?", "%#{movie_title}%").first
 		if !movie.present?
 			return false
 		else
@@ -38,21 +38,11 @@ class Movie < ActiveRecord::Base
 		movie_results = search.fetch
 	end
 
-	def self.check_movie_in_db(title)
-		movie = Movie.lookup_by_title(title)
-		if movie.present? #movie is in the DB
-			return true
-		else
-			#Round is over. If we can't find the movie, then the person that brought us here was not in it.
-			false
-		end
-	end
-
 	# Check to see if the person is in the movie
-	def self.validate_person_in_movie(title, person)
-		movie = Movie.lookup_by_title(title)
+	def validate_person_in_movie(person)
+		binding.pry
 		person = Person.lookup_person_by_name(person)
-		if movie.people.find_by name: person.name
+		if self.people.find_by name: person.name
 			true
 		else
 			#round is over
@@ -85,8 +75,4 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	# Get movie object out of DB
-	def self.lookup_by_title(title)
-		Movie.where("title ILIKE ?", "%#{title}%").first
-	end
 end

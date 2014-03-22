@@ -21,9 +21,17 @@ class MoviesController < ApplicationController
           # Unique submission, add title to session
           session[:answers] << title
           #Check to see if the movie is in the DB
-          if Movie.check_movie_in_db(title) == true
+          movie = Movie.find_movie_in_db(title)
+          binding.pry
+          # no movie in DB
+          if !movie
+            session[:answers] = nil
+            flash['alert'] = "Sorry, but we could not find any movies called '#{title}' that #{person} was in. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
+            # end round
+            redirect_to root_path
+          else
             #Check to see that the movie belongs to the person
-            if Movie.validate_person_in_movie(title, person) == true
+            if movie.validate_person_in_movie(person) == true
               #correct answer
               update_score
               update_level_up
@@ -38,11 +46,6 @@ class MoviesController < ApplicationController
               # end round
               redirect_to root_path
             end
-          else
-            session[:answers] = nil
-            flash['alert'] = "Sorry, but we could not find any movies called '#{title}' that #{person} was in. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
-            # end round
-            redirect_to root_path
           end
         end
       else
