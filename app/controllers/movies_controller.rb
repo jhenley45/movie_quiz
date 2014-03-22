@@ -21,9 +21,9 @@ class MoviesController < ApplicationController
           # Unique submission, add title to session
           session[:answers] << title
           #Check to see if the movie is in the DB
-          if Movie.check_movie_name(title) == true
+          if Movie.check_movie_in_db(title) == true
             #Check to see that the movie belongs to the person
-            if Movie.validate_person(title, person) == true
+            if Movie.validate_person_in_movie(title, person) == true
               #correct answer
               update_score
               update_level_up
@@ -61,9 +61,9 @@ class MoviesController < ApplicationController
       #first time. Returns the movie
       movie = Movie.find_movie_in_db(params[:movie]["title"])
       if movie == false
-        movie = Movie.create_new_movie(params[:movie]["title"])
+        movie = Movie.create_new_tmdb_movie(params[:movie]["title"])
         if movie == false
-          flash['alert'] = "We couldn't find that movie."
+          flash['alert'] = "We couldn't find that movie. Please make sure you did not make any spelling errors."
           # end round
           redirect_to root_path and return
         end
