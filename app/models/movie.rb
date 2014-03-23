@@ -44,9 +44,8 @@ class Movie < ActiveRecord::Base
 	end
 
 	# Check to see that the movie belongs to the person
-	def validate_person_in_movie(person)
-		person = Person.lookup_person_in_db(person)
-		if self.people.find_by name: person.name
+	def validate_person_in_movie(person_name)
+		if self.people.find_by name: person_name
 			true
 		else
 			#round is over

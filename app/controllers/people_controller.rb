@@ -25,8 +25,8 @@ class PeopleController < ApplicationController
     			@user.update_score
     			@user.update_level_up
           session[:answers] << person
-    			redirect_to new_movie_path(:person => person)
-          flash['notice'] = "Correct! #{person} was in #{movie}."
+    			redirect_to new_movie_path(:person => db_person.name)
+          flash['notice'] = "Correct! #{db_person.name} was in #{movie}."
   	  	else
           # the person exists but is not in this movie
           session[:answers] = nil
