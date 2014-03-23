@@ -18,13 +18,13 @@ class PeopleController < ApplicationController
         redirect_to root_path
       else
       	# First returns true if the person is present in the DB
-        person = Person.lookup_person_in_db(person)
-        if !person
+        db_person = Person.lookup_person_in_db(person)
+        if !db_person
           # The person does not exist in the DB and was therefore not in the move that brought us here
           session[:answers] = nil
           flash['alert'] = "Sorry, but we could not find anyone by the name of #{person}. Final score: #{current_user.rounds.last.score}"
           redirect_to root_path
-        elsif person.validate_movie(movie) == true
+        elsif db_person.validate_movie(movie) == true
           # Returns true if the person is in the movie that the user put in
     			@user.update_score
     			@user.update_level_up
