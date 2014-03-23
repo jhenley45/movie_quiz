@@ -42,15 +42,11 @@ class Person < ActiveRecord::Base
 		cast.each do |member|
 			#check if the person is already in DB by tmdb_id
 			if !Person.find_by(tmdb_id: member["id"])
-				#create a new person for each cast member
 				person = Person.create!(name: member["name"], tmdb_id: member["id"])
-				#create the corresponding cast_members join
 				person.cast_members.create!(movie: movie)
-			#If the person is there but the relationship is not, we need to create the relationship
+			#If the person is the DB but the relationship is not, we need to create the relationship
 			elsif !Person.find_by(tmdb_id: member["id"]).cast_members.find_by_movie_id(movie["id"])
-				#find the person
 				person = Person.find_by_tmdb_id(member["id"])
-				#create the relationship
 				person.cast_members.create!(movie: movie)
 			end
 		end

@@ -6,8 +6,7 @@ class MoviesController < ApplicationController
 	end
 
   def create
-    #This will trigger on every turn besides the first
-    if params[:movie]["person"].present?
+    if params[:movie]["person"].present? # This will trigger on every turn besides the first
       title = params[:movie]["title"]
       person = params[:movie]["person"]
       #Check to see if the user is trying to replay the round
@@ -44,7 +43,7 @@ class MoviesController < ApplicationController
     elsif params[:movie]["title"].empty? #empty submission
       flash['alert'] = "You must enter a correct title to start the game, genius. Try again."
       redirect_to root_path
-    else
+    else # Beginning of a new round
       session[:answers] = [] # initialize session
       session[:answers] << params[:movie]["title"]
       movie = Movie.find_movie_in_db(params[:movie]["title"])

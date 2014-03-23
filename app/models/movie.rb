@@ -69,11 +69,8 @@ class Movie < ActiveRecord::Base
 		#Get all of the movies for this person
 		movies = Tmdb::Person.credits(person.tmdb_id)
 		movies.first[1].each do |movie|
-			#check if the movie exists in the DB
 			if !Movie.find_by(tmdb_id: movie["id"])
-				#create a new movie for all of the movies the person is in
 				movie = Movie.create!(title: movie["original_title"], tmdb_id: movie["id"])
-				#create the corresponding cast_members join
 				movie.cast_members.create!(person: person)
 			elsif !Movie.find_by(tmdb_id: movie["id"]).cast_members.find_by_person_id(person["id"])
 				movie = Movie.find_by_tmdb_id(movie["id"])
