@@ -2,11 +2,11 @@ class Person < ActiveRecord::Base
 	has_many :cast_members
 	has_many :movies, through: :cast_members
 
-
+	# Finds and returns person object from DB. Checks to see if person needs to be populated.
+	# Returns false if person is not found (wrong answer)
 	def self.lookup_person_in_db(user_person)
 		person = Person.where("name ILIKE ?", "%#{user_person}%").first
-		# See if we have a person that matches
-		if !person.present?# Person is not in DB
+		if !person.present?
 			return false
 		else
 			person.person_populate_cast_members?
@@ -14,16 +14,17 @@ class Person < ActiveRecord::Base
 		end
 	end
 
-	def validate_movie(movie)
-		# See if the person is in the movie that the user put in.
+	# Validates that the person was in the movie
+	def validate_movie_for_person(movie)
 		if self.movies.find_by title: movie
 			return true
 		else
-			#person exists but is NOT in the given movie. Error.
+			#round is over
 			false
 		end
 	end
 
+	#checks to see if we need to populate all of the movies for this person
 	def person_populate_cast_members?
 		if !self.populated?
 			#populate movies db
@@ -34,6 +35,8 @@ class Person < ActiveRecord::Base
 		end
 	end
 
+	# populates all of the people for a given movie.
+	# May create new people if they do not exist yet in the DB
 	def self.create_cast_members(movie)
 		cast = Tmdb::Movie.casts(movie.tmdb_id) #Get the cast
 		cast.each do |member|

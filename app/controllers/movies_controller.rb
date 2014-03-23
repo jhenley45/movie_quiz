@@ -21,28 +21,19 @@ class MoviesController < ApplicationController
         else
           # Unique submission, add title to session
           session[:answers] << title
-          #Check to see if the movie is in the DB
           movie = Movie.find_movie_in_db(title)
-          # no movie in DB
-          if !movie
+          if !movie # not a valid movie-person combo
             session[:answers] = nil
             flash['alert'] = "Sorry, but we could not find any movies called '#{title}' that #{person} was in. Make sure you didn't make any spelling errors. Final score: #{current_user.rounds.last.score}"
-            # end round
             redirect_to root_path
-          #Check to see that the movie belongs to the person
           elsif movie.validate_person_in_movie(person) == true
-            #correct answer
             @user.update_score
             @user.update_level_up
-            # Get the movie to pass to person#new in correct format
-            movie = Movie.find_movie_in_db(title)
             redirect_to new_person_path(:movie => movie["title"])
             flash['notice'] = "Correct! #{person} was in #{title}."
-          else
+          else # this person is not in the movie
             session[:answers] = nil
-            # this person is not in the movie
             flash['alert'] = "Sorry, but #{person} is not in #{title}. Final score: #{current_user.rounds.last.score}"
-            # end round
             redirect_to root_path
           end
         end
@@ -50,18 +41,14 @@ class MoviesController < ApplicationController
         flash['alert'] = "Cheating is bad for your health."
         redirect_to root_path
       end
-    # If the string is empty
-    elsif params[:movie]["title"].empty?
+    elsif params[:movie]["title"].empty? #empty submission
       flash['alert'] = "You must enter a correct title to start the game, genius. Try again."
-      # end round
       redirect_to root_path
     else
-      #add the movie to the session
-      session[:answers] = []
+      session[:answers] = [] # initialize session
       session[:answers] << params[:movie]["title"]
-      #first time. Returns the movie
       movie = Movie.find_movie_in_db(params[:movie]["title"])
-      if movie == false
+      if movie == false # new movie, need to fetch from TMDB and create it
         movie = Movie.create_new_tmdb_movie(params[:movie]["title"])
         if movie == false
           flash['alert'] = "We couldn't find that movie. Please make sure you did not make any spelling errors."
