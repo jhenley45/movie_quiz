@@ -1,28 +1,24 @@
-== README
+The Movie Quiz
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The movie quiz is a game that tests your movie knowledge. Here's how to play...
 
-Things you may want to cover:
+THE RULES
 
-* Ruby version
+1.) Begin each round by entering the title of a movie.
 
-* System dependencies
+2.) You will then be prompted to enter an actor or actress in that movie. If you are correct, you will advance. Incorrect, and your round will end.
 
-* Configuration
+3.) Next you will be prompted to enter a movie that your actor/actress was in. If correct, this process repeats itself.
 
-* Database creation
+4.) You do not need to capitalize answers, but misspellings will cause you to lose.
 
-* Database initialization
+5.) If you repeat an answer during your round (e.g. use "Matt Damon" for two different movies) you will lose.
 
-* How to run the test suite
+6.) Points are awarded for correct responses.
 
-* Services (job queues, cache servers, search engines, etc.)
+7.) For every 5 correct answers you will move up one level. Points are multiplied each level.
 
-* Deployment instructions
-
-* ...
+8.) For each level you go up, the time you have to respond will decrease.
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+The Movie Quiz is an open-source project build during General Assembly's WDI course.
