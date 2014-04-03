@@ -22,3 +22,6 @@ THE RULES
 
 
 The Movie Quiz is an open-source project build during General Assembly's WDI course.
+
+
+NOTE: There is no testing for this application. At the time, I did not know TDD well enough to write adequate tests given the timeline of the project (one week).
